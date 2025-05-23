@@ -7,6 +7,9 @@
     <title>Document</title>
     @vite('resources/css/app.css')
     <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" rel="stylesheet">
+    {{-- <script src="jquery-3.7.1.min.js"></script> --}}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 
 <body>
@@ -20,8 +23,9 @@
     </div>
     @include('layouts.footer')
 
-    <script src="../path/to/flowbite/dist/flowbite.min.js"></script>
+    {{-- <script src="../path/to/flowbite/dist/flowbite.min.js"></script> --}}
     <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 </body>
 
 </html>
