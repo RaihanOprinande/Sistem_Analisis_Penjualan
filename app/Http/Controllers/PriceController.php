@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Interfaces\PriceInterface;
+use App\Models\Price;
 use Illuminate\Http\Request;
 
 class PriceController extends Controller
@@ -9,9 +11,26 @@ class PriceController extends Controller
     /**
      * Display a listing of the resource.
      */
+
+     public $priceinterface;
+
+     public function __construct(PriceInterface $priceinterface)
+     {
+         $this->priceinterface = $priceinterface;
+     }
+
     public function index()
+    {   $price = $this->priceinterface->getallprice();
+        $menu = $this->priceinterface->getallmenu();
+        $platfrom = $this->priceinterface->getallplatfrom();
+        return view('price.index',compact('platfrom', 'menu','price'));
+
+    }
+
+        public function byplatfrom(string $id)
     {
-        return view('price.index');
+    $prices = Price::with('menu','platfrom')->where('platfrom_id', $id)->limit(100)->get();
+    return response()->json($prices);
     }
 
     /**
@@ -19,7 +38,10 @@ class PriceController extends Controller
      */
     public function create()
     {
-        //
+        $price = $this->priceinterface->getallprice();
+        $menu = $this->priceinterface->getallmenu();
+        $platfrom = $this->priceinterface->getallplatfrom();
+        return view('price.create',compact('platfrom', 'menu','price'));
     }
 
     /**
@@ -27,7 +49,13 @@ class PriceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $price = $this->priceinterface->storedata($request);
+
+        if ($price['success']) {
+            return redirect('/price')->with('success', $price['message']);
+        } else {
+            return redirect('/price')->with('error', $price['message']);
+        }
     }
 
     /**

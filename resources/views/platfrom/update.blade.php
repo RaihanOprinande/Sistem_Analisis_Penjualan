@@ -27,19 +27,13 @@
                 <input type="hidden" name="id" id="edit-id">
                 <div class="grid gap-4 mb-4 grid-cols-2">
                     <div class="col-span-2">
-                        <label for="menu"
+                        <label for="platfrom"
                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Menu</label>
-                        <input type="text" name="menu_name" id="menu_name"
+                        <input type="text" name="platfrom" id="platfrom"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                             placeholder="Type product name" required="">
                     </div>
-                    <div class="col-span-2">
-                        <label for="price"
-                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Price</label>
-                        <input type="number" name="hpp" id="hpp"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                            placeholder="$2999" required="">
-                    </div>
+
 
                 </div>
 
@@ -51,7 +45,7 @@
                             d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
                             clip-rule="evenodd"></path>
                     </svg>
-                    Update  platfrom
+                    Update menu
                 </button>
             </form>
         </div>

@@ -1,4 +1,17 @@
 @extends('layouts.main')
+@section('breadcrumbs')
+    <nav class="flex text-white" aria-label="Breadcrumb">
+        <ol class="inline-flex items-center space-x-1 md:space-x-3">
+            <li>
+                <a href="/dashboard" class="inline-flex items-center text-sm font-medium hover:underline">
+                    Dashboard
+                </a>
+                <span class="mx-2">/</span>
+                <span class="text-sm font-medium">Menu</span>
+            </li>
+        </ol>
+    </nav>
+@endsection
 @section('content')
     @include('menu.create')
     @include('menu.update')
@@ -17,8 +30,8 @@
             </div>
         @endif
     </div>
+    <h1 class="text-4xl font-bold">Menu</h1>
     <div class="container">
-        <h1 class="text-3xl font-bold">Menu</h1>
 
         <div class="flex justify-end mb-5">
             <button data-modal-target="crud-modal" data-modal-toggle="crud-modal"

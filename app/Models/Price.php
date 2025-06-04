@@ -6,5 +6,22 @@ use Illuminate\Database\Eloquent\Model;
 
 class Price extends Model
 {
-    //
+    protected $fillable
+     = [
+        'platfrom_id',
+        'menu_id',
+        'komisi',
+        'target_laba',
+        'harga'
+     ];
+
+    public function menu()
+    {
+        return $this->belongsTo(Menu::class, 'menu_id');
+    }
+
+        public function platfrom()
+    {
+        return $this->belongsTo(Menu::class, 'platfrom_id');
+    }
 }

@@ -10,4 +10,9 @@ class Menu extends Model
     'menu_name',
     'hpp'
     ];
+
+    public function prices()
+    {
+        return $this->hasMany(Price::class, 'menu_id');
+    }
 }
