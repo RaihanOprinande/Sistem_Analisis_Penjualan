@@ -29,7 +29,7 @@ class PriceController extends Controller
 
         public function byplatfrom(string $id)
     {
-    $prices = Price::with('menu','platfrom')->where('platfrom_id', $id)->limit(100)->get();
+    $prices = Price::with('menu','platfrom')->where('platfrom_id', $id)->get();
     return response()->json($prices);
     }
 
@@ -71,7 +71,10 @@ class PriceController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $price = $this->priceinterface->getdata($id);
+        $menu = $this->priceinterface->getallmenu();
+        $platfrom = $this->priceinterface->getallplatfrom();
+        return view('price.update', compact('platfrom', 'menu', 'price'));
     }
 
     /**

@@ -7,6 +7,7 @@ use App\Models\Menu;
 use App\Models\Platfrom;
 use App\Models\Price;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PriceRepository implements PriceInterface
 {
@@ -20,7 +21,7 @@ class PriceRepository implements PriceInterface
     public function getallprice()
     {
 
-        $price = Price::all();
+        $price = Price::orderby('created_at', 'desc')->get();
 
         return $price;
     }
@@ -45,12 +46,14 @@ class PriceRepository implements PriceInterface
     }
     public function getdata($id)
     {
-        // Logic to retrieve data by ID
+        $price = Price::find($id);
+        return $price;
     }
     public function storedata($request)
     {
         // $menu = Menu::find($id);
         try {
+            DB::beginTransaction();
         $validated = $request->validate([
             'menu_id' => 'required',
             'platfrom_id' => 'required',
@@ -58,7 +61,11 @@ class PriceRepository implements PriceInterface
             'target_laba' => 'required|numeric',
             'harga' => 'required|numeric',
         ]);
+        Price::where('platfrom_id', $request->platfrom_id)
+            ->where('menu_id', $request->menu_id)
+            ->delete();
         Price::create($validated);
+        DB::commit();
         return ['success' => true, 'message' => 'Price has been added'];
         } catch (\Exception $e) {
         return ['success' => false, 'message' => 'Failed to add price: ' . $e->getMessage()];
@@ -66,7 +73,19 @@ class PriceRepository implements PriceInterface
     }
     public function updatedata($request ,$id)
     {
-        // Logic to update data
+        try {
+            $validated = $request->validate([
+            'menu_id' => 'required',
+            'platfrom_id' => 'required',
+            'komisi' => 'required|numeric',
+            'target_laba' => 'required|numeric',
+            'harga' => 'required|numeric',
+        ]);
+        Price::where('id',$id)->update($validated);
+        return ['success' => true, 'message' => 'Price has been added'];
+        } catch (\Exception $e) {
+        return ['success' => false, 'message' => 'Failed to add price: ' . $e->getMessage()];
+        }
     }
     public function deletedata($id)
     {

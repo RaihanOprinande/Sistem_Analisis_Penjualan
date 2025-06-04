@@ -15,16 +15,19 @@ Route::get('/', function () {
 Route::get('/dashboard',[DashboardController::class,'index']);
 Route::get('/register',[RegisterController::class,'index']);
 Route::get('/login',[LoginController::class,'index']);
+//price
 Route::get('/price',[PriceController::class,'index']);
 Route::get('/price/{id}',[PriceController::class,'byplatfrom']);
 Route::get('/create_price',[PriceController::class,'create']);
+Route::get('/update_price/{id}',[PriceController::class,'edit']);
+Route::post('/price/store',[PriceController::class,'store']);
 
 Route::resource('/menu',MenuController::class);
 Route::resource('/platfrom',PlatfromController::class);
+// Route::resource('/price_update',PriceController::class);
 
 Route::post('/login',[LoginController::class,'authenticate']);
 Route::post('/register',[RegisterController::class,'store']);
 Route::post('/logout',[LoginController::class,'logout']);
 Route::post('/price/platfrom/store',[PlatfromController::class,'store']);
-Route::post('/price/store',[PriceController::class,'store']);
 

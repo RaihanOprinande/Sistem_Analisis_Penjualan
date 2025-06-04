@@ -31,15 +31,20 @@
             </div>
         @endif
     </div>
-    <h1 class="text-4xl font-bold mb-10">Add new Price</h1>
-    <form action="/price/store" method="POST">
+    <h1 class="text-4xl font-bold mb-10">Update Price</h1>
+    <form action="/price/update/{{ $price->id }}" method="POST">
+        @method('PUT')
         @csrf
         <div class="platfrom mb-5">
             <div class="from-neutral-800 text-base mb-1" for="platfrom_id">Select Platfrom</div>
             <select class="js-example-basic-single w-full " name="platfrom_id" id="platfrom_id">
                 <option value="">Select Platfrom</option>
                 @foreach ($platfrom as $item)
-                    <option value="{{ $item->id }}">{{ $item->platfrom }}</option>
+                    @if (old('platfrom_id', $price->platfrom_id) == $item->id)
+                        <option value="{{ $item->id }}" selected>{{ $item->platfrom }}</option>
+                    @else
+                        <option value="{{ $item->id }}">{{ $item->platfrom }}</option>
+                    @endif
                 @endforeach
             </select>
         </div>
@@ -49,7 +54,15 @@
             <select class="js-example-basic-single w-full" name="menu_id" id="menu_id">
                 <option value="">Select Menu</option>
                 @foreach ($menu as $item)
-                    <option value="{{ $item->id }}" data-hpp="{{ $item->hpp }}">{{ $item->menu_name }}</option>
+                    @if (old('menu_id', $price->menu_id) == $item->id)
+                        {{-- <option value="{{ $item->id }}" selected>{{ $item->menu_name }}</option> --}}
+                        <option value="{{ $item->id }}" data-hpp="{{ $item->hpp }}"selected>{{ $item->menu_name }}
+                        </option>
+                    @else
+                        {{-- <option value="{{ $item->id }}">{{ $item->menu_name }}</option> --}}
+                        <option value="{{ $item->id }}" data-hpp="{{ $item->hpp }}">{{ $item->menu_name }}
+                        </option>
+                    @endif
                 @endforeach
             </select>
         </div>
@@ -65,14 +78,14 @@
             <div for="target_laba" class="from-neutral-800 text-base mb-1">Percentage Profit</div>
             <input type="number" name="target_laba" id="target_laba"
                 class=" border text-sm rounded-sm focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5   dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                placeholder="30" required="">
+                value="{{ old('target_laba', $price->target_laba) }}" placeholder="30" required="">
         </div>
 
         <div class="mb-5">
             <div for="komisi" class="from-neutral-800 text-base mb-1">Percentage Platfrom Comission</div>
             <input type="number" name="komisi" id="komisi"
                 class=" border text-sm rounded-sm focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5   dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                placeholder="25" required="">
+                value="{{ old('komisi', $price->komisi) }}" placeholder="25" required="">
         </div>
 
         <div class="mb-5">
@@ -86,7 +99,7 @@
             <div for="rekomendasi_harga" class="from-neutral-800 text-base mb-1">Your Price</div>
             <input type="number" name="harga" id="rekomendasis"
                 class=" border text-sm rounded-sm focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5   dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                placeholder="" required="">
+                value="{{ old('harga', $price->harga) }}" placeholder="" required="">
         </div>
         <button type="submit"
             class="text-white inline-flex mb-10 items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mt-1 text-center col-span-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
@@ -127,12 +140,10 @@
                 $('#menu_id').val('').trigger('change');
             });
 
-            $('#menu_id').on('change', function() {
-                let selected = this.options[this.selectedIndex];
-                window.selectedHpp = parseFloat(selected.getAttribute('data-hpp')) || 0;
-                $('#hpp').val(window.selectedHpp).toLocaleString('id-ID');
-                hitungRekomendasi();
-            });
+            let selectedMenu = $('#menu_id option:selected');
+            window.selectedHpp = parseFloat(selectedMenu.data('hpp')) || 0;
+            $('#hpp').val(window.selectedHpp).toLocaleString('id-ID');
+            hitungRekomendasi();
 
             $('#target_laba').on('input', hitungRekomendasi);
             $('#komisi').on('input', hitungRekomendasi);
@@ -141,11 +152,37 @@
                 let hpp = parseFloat(window.selectedHpp) || 0;
                 let targetLaba = parseFloat($('#target_laba').val()) || 0;
                 let komisi = parseFloat($('#komisi').val()) || 0;
-                
                 let rekomendasiHarga = (hpp + (hpp * (targetLaba / 100))) / (1 - (komisi / 100));
                 $('#rekomendasi').val(rekomendasiHarga.toFixed(2));
             }
 
+            $('#platfrom_id_filter').on('change', function() {
+                let platfromId = $(this).val();
+                $.get('/price/' + platfromId, function(data) {
+                    let html = '';
+                    data.forEach(function(item, idx) {
+                        html += `<tr>
+                <td>${idx + 1}</td>
+                <td>${item.menu.menu_name}</td>
+                <td>Rp. ${parseInt(item.menu.hpp).toLocaleString('id-ID')}</td>
+                <td>Rp. ${parseInt(item.harga).toLocaleString('id-ID')}</td>
+                <td class="flex gap-2">
+                                                    <button
+                                    class="block text-white bg-yellow-500 hover:bg-yellow-400 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-yellow-600 dark:hover:bg-yellow-700 dark:focus:ring-yellow-600"
+                                    onclick="UpdateMenu(this)" data-menu="{{ json_encode($menu) }}" type="button">
+                                    Edit
+                                </button>
+                                <button
+                                    class="block text-white bg-red-600 hover:bg-red-400 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-600"
+                                    onclick="deleteMenu(this)" data-menu="{{ json_encode($menu) }}" type="button">
+                                    Delete
+                                </button>
+                </td>
+            </tr>`;
+                    });
+                    $('#priceTableBody').html(html);
+                });
+            });
         });
     </script>
 @endsection
