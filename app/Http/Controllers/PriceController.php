@@ -82,7 +82,13 @@ class PriceController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $price = $this->priceinterface->updatedata($request, $id);
+
+        if ($price['success']) {
+            return redirect('/price')->with('success', $price['message']);
+        } else {
+            return redirect('/price')->with('error', $price['message']);
+        }
     }
 
     /**

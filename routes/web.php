@@ -24,7 +24,7 @@ Route::post('/price/store',[PriceController::class,'store']);
 
 Route::resource('/menu',MenuController::class);
 Route::resource('/platfrom',PlatfromController::class);
-// Route::resource('/price_update',PriceController::class);
+Route::resource('/update_price',PriceController::class);
 
 Route::post('/login',[LoginController::class,'authenticate']);
 Route::post('/register',[RegisterController::class,'store']);

@@ -89,4 +89,10 @@ class PlatfromController extends Controller
             return redirect('/platfrom')->with('error', $platfrom['message']);
         }
     }
+
+    public function getplatfrom(Request $request){
+        $platfrom = $this->platfromInterface->getdata($request);
+
+        view()->share('platfrom', $platfrom);
+    }
 }

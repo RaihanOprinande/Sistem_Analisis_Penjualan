@@ -32,7 +32,7 @@
         @endif
     </div>
     <h1 class="text-4xl font-bold mb-10">Update Price</h1>
-    <form action="/price/update/{{ $price->id }}" method="POST">
+    <form action="/update_price/{{ $price->id }}" method="POST">
         @method('PUT')
         @csrf
         <div class="platfrom mb-5">
