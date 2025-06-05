@@ -151,7 +151,7 @@
                 <ul id="dropdown-example" class="hidden py-2 space-y-2">
                     @foreach ($platfrom as $pf)
                         <li>
-                            <a href="#"
+                            <a href="/komisi/{{ $pf->id }}"
                                 class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">{{ $pf->platfrom }}</a>
                         </li>
                     @endforeach

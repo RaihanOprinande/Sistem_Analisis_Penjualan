@@ -2,11 +2,13 @@
 
 namespace App\Providers;
 
+use App\Interfaces\CommissionInterface;
 use App\Interfaces\LoginInterface;
 use App\Interfaces\MenuInterface;
 use App\Interfaces\PlatfromInterface;
 use App\Interfaces\PriceInterface;
 use App\Interfaces\RegisterInterface;
+use App\Repositories\CommissionRepository;
 use App\Repositories\RegisterRepository;
 use App\Repositories\LoginRepository;
 use App\Repositories\MenuRepository;
@@ -26,6 +28,7 @@ class AppComponentProvider extends ServiceProvider
         $this->app->bind(PriceInterface::class,PriceRepository::class);
         $this->app->bind(MenuInterface::class,MenuRepository::class);
         $this->app->bind(PlatfromInterface::class,PlatfromRepository::class);
+        $this->app->bind(CommissionInterface::class,CommissionRepository::class);
 
 
     }

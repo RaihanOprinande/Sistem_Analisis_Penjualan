@@ -3,7 +3,9 @@
 namespace App\repositories;
 
 use App\Interfaces\PlatfromInterface;
+use App\Models\Commission;
 use App\Models\Platfrom;
+use Illuminate\Support\Facades\DB;
 
 class PlatfromRepository implements PlatfromInterface
 {
@@ -24,10 +26,17 @@ class PlatfromRepository implements PlatfromInterface
     public function storedata($request)
     {
         try {
+            DB::beginTransaction();
             $validated = $request->validate([
                 'platfrom' => 'required',
             ]);
             Platfrom::create($validated);
+            Commission::create([
+                'platfrom_id' => Platfrom::latest()->first()->id,
+                'komisi' => null,
+                'tanggal_berlaku' =>null,
+            ]);
+            DB::commit();
 
             return ['success' => true, 'message' => 'Platfrom has been added'];
         } catch (\Exception $e) {

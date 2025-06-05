@@ -14,4 +14,9 @@ class Platfrom extends Model
     {
         return $this->hasMany(Price::class, 'platfrom_id');
     }
+
+    public function komisi()
+    {
+        return $this->hasMany(Commission::class, 'platfrom_id');
+    }
 }

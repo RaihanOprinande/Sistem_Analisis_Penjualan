@@ -83,9 +83,9 @@
 
         <div class="mb-5">
             <div for="komisi" class="from-neutral-800 text-base mb-1">Percentage Platfrom Comission</div>
-            <input type="number" name="komisi" id="komisi"
+            <input type="number" name="komisi_id" id="komisi"
                 class=" border text-sm rounded-sm focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5   dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                value="{{ old('komisi', $price->komisi) }}" placeholder="25" required="">
+                value="{{ old('komisi_id', $price->komisi_id) }}" placeholder="25" required="">
         </div>
 
         <div class="mb-5">

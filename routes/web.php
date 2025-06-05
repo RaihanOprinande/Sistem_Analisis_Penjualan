@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\commissionController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MenuController;
@@ -15,6 +16,7 @@ Route::get('/', function () {
 Route::get('/dashboard',[DashboardController::class,'index']);
 Route::get('/register',[RegisterController::class,'index']);
 Route::get('/login',[LoginController::class,'index']);
+Route::get('/komisi/{id}',[commissionController::class,'show']);
 //price
 Route::get('/price',[PriceController::class,'index']);
 Route::get('/price/{id}',[PriceController::class,'byplatfrom']);

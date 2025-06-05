@@ -90,9 +90,4 @@ class PlatfromController extends Controller
         }
     }
 
-    public function getplatfrom(Request $request){
-        $platfrom = $this->platfromInterface->getdata($request);
-
-        view()->share('platfrom', $platfrom);
-    }
 }

@@ -21,6 +21,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $platfrom = Platfrom::all();
+        // dd($platfrom);
         view()->share('platfrom', $platfrom);
     }
 }
