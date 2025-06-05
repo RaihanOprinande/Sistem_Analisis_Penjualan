@@ -5,6 +5,7 @@ namespace App\Interfaces;
 interface PriceInterface
 {
     public function getallmenu();
+    public function getallkomisi();
     public function getmenubyplatfrom($id);
     public function getallprice();
     public function getallplatfrom();

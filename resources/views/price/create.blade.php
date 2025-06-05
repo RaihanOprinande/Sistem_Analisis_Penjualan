@@ -44,6 +44,16 @@
             </select>
         </div>
 
+        <div class="platfrom mb-5">
+            <div class="from-neutral-800 text-base mb-1" for="komisi">Percentage Platfrom Comission</div>
+            <select class="js-example-basic-single w-full " name="komisi_id" id="komisi">
+                <option value="">Select Commission</option>
+                @foreach ($komisi as $item)
+                    <option value="{{ $item->id }}">{{ $item->komisi }}%</option>
+                @endforeach
+            </select>
+        </div>
+
         <div class="menu mb-5">
             <div class="from-neutral-800 text-base mb-1" for="platfrom_id">Select Menu</div>
             <select class="js-example-basic-single w-full" name="menu_id" id="menu_id">
@@ -68,12 +78,7 @@
                 placeholder="30" required="">
         </div>
 
-        <div class="mb-5">
-            <div for="komisi" class="from-neutral-800 text-base mb-1">Percentage Platfrom Comission</div>
-            <input type="number" name="komisi" id="komisi"
-                class=" border text-sm rounded-sm focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5   dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                placeholder="25" required="">
-        </div>
+
 
         <div class="mb-5">
             <div for="rekomendasi_harga" class="from-neutral-800 text-base mb-1">Recommended Price</div>
@@ -105,6 +110,7 @@
             $('#priceTable').DataTable();
 
             const prices = @json($price);
+            const commissions = @json($komisi);
 
             $('#platfrom_id').on('change', function() {
                 let platfromId = $(this).val();
@@ -112,6 +118,13 @@
                 let usedMenuIds = prices
                     .filter(item => item.platfrom_id == platfromId)
                     .map(item => item.menu_id);
+
+                let selectedCommission = commissions.find(item => item.platfrom_id == platfromId);
+                if (selectedCommission) {
+                    $('#komisi').val(selectedCommission.id).trigger('change');
+                } else {
+                    $('#komisi').val('').trigger('change');
+                }
 
                 // Tampilkan hanya menu yang belum ada di price untuk platform ini
                 $('#menu_id option').each(function() {
@@ -141,7 +154,7 @@
                 let hpp = parseFloat(window.selectedHpp) || 0;
                 let targetLaba = parseFloat($('#target_laba').val()) || 0;
                 let komisi = parseFloat($('#komisi').val()) || 0;
-                
+
                 let rekomendasiHarga = (hpp + (hpp * (targetLaba / 100))) / (1 - (komisi / 100));
                 $('#rekomendasi').val(rekomendasiHarga.toFixed(2));
             }

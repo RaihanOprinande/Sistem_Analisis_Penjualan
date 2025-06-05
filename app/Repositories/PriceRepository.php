@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Interfaces\PriceInterface;
+use App\Models\Commission;
 use App\Models\Menu;
 use App\Models\Platfrom;
 use App\Models\Price;
@@ -53,21 +54,32 @@ class PriceRepository implements PriceInterface
     {
         // $menu = Menu::find($id);
         try {
-            DB::beginTransaction();
+            // DB::beginTransaction();
+
         $validated = $request->validate([
             'menu_id' => 'required',
             'platfrom_id' => 'required',
-            'komisi' => 'required|numeric',
+            'komisi_id' => 'required|numeric',
             'target_laba' => 'required|numeric',
             'harga' => 'required|numeric',
         ]);
+        $existing = Price::where('platfrom_id', $request->platfrom_id)
+            ->where('menu_id', $request->menu_id)
+            ->first();
+
+        if ($existing) {
         Price::where('platfrom_id', $request->platfrom_id)
             ->where('menu_id', $request->menu_id)
             ->delete();
+            Price::create($validated);
+        }
+
         Price::create($validated);
-        DB::commit();
+        // DB::commit();
+        // dd($validated);
         return ['success' => true, 'message' => 'Price has been added'];
-        } catch (\Exception $e) {
+    } catch (\Exception $e) {
+        // dd($validated);
         return ['success' => false, 'message' => 'Failed to add price: ' . $e->getMessage()];
         }
     }
@@ -77,7 +89,7 @@ class PriceRepository implements PriceInterface
             $validated = $request->validate([
             'menu_id' => 'required',
             'platfrom_id' => 'required',
-            'komisi' => 'required|numeric',
+            'komisi_id' => 'required|numeric',
             'target_laba' => 'required|numeric',
             'harga' => 'required|numeric',
         ]);
@@ -90,5 +102,11 @@ class PriceRepository implements PriceInterface
     public function deletedata($id)
     {
         // Logic to delete data
+    }
+
+    public function getallkomisi()
+    {
+        $komisi = Commission::all();
+        return $komisi;
     }
 }

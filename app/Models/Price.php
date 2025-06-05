@@ -10,7 +10,7 @@ class Price extends Model
      = [
         'platfrom_id',
         'menu_id',
-        'komisi',
+        'komisi_id',
         'target_laba',
         'harga'
      ];
