@@ -17,23 +17,26 @@ class commissionController extends Controller
 
     public function index()
     {
-        $komisi = $this->komisiInterface->getdata();
-        return view('komisi.index', compact('komisi'));
     }
 
-    public function create()
+    public function create(string $id)
     {
-        return view('komisi.create');
+        $komisi = $this->komisiInterface->getdetailplatfrom($id);
+        return view('komisi.create', compact('komisi'));
     }
 
     public function store(Request $request)
     {
         $komisi = $this->komisiInterface->storedata($request);
 
+        $platfromId = $request->platfrom_id;
+
+        // $komisi->platfrom->id;
+
         if ($komisi['success']) {
-            return redirect('/komisi')->with('success', $komisi['message']);
+            return redirect('/komisi/'. $platfromId)->with('success', $komisi['message']);
         } else {
-            return redirect('/komisi')->with('error', $komisi['message']);
+            return redirect('/komisi/'. $platfromId)->with('error', $komisi['message']);
         }
     }
 

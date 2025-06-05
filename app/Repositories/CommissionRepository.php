@@ -38,9 +38,11 @@ class CommissionRepository implements CommissionInterface
     public function storedata($request)
     {
         try {
+
             $validated = $request->validate([
                 'komisi' => 'required|numeric',
-                'platfrom_id' => 'required|exists:platfrom,id',
+                'platfrom_id' => 'required|exists:platfrom_komisis,platfrom_id',
+                'tanggal_berlaku' => 'required',
             ]);
             Commission::create($validated);
             return ['success' => true, 'message' => 'Commission has been added'];
