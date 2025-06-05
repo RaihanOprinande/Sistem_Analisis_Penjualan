@@ -71,7 +71,6 @@ class PriceRepository implements PriceInterface
         Price::where('platfrom_id', $request->platfrom_id)
             ->where('menu_id', $request->menu_id)
             ->delete();
-            Price::create($validated);
         }
 
         Price::create($validated);
