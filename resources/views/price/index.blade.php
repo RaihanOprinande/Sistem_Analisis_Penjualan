@@ -25,9 +25,15 @@
             <table id="priceTable" class="display">
                 <thead>
                     <tr>
-                        <th>Menu</th>
+                        <th rowspan="2" class="">Menu</th>
                         @foreach ($platfrom as $pf)
-                            <th>Harga {{ $pf->platfrom }}</th>
+                            <th colspan="2" class=""> {{ $pf->platfrom }}</th>
+                        @endforeach
+                    </tr>
+                    <tr>
+                        @foreach ($platfrom as $pf)
+                            <th>Harga</th>
+                            <th>Laba</th>
                         @endforeach
                     </tr>
                 </thead>
@@ -36,17 +42,22 @@
                         <tr>
                             <td>{{ $m->menu_name }}</td>
                             @foreach ($platfrom as $pf)
+                                @php
+                                    $harga = $price->where('menu_id', $m->id)->where('platfrom_id', $pf->id)->first();
+                                @endphp
                                 <td>
-                                    @php
-                                        $harga = $price
-                                            ->where('menu_id', $m->id)
-                                            ->where('platfrom_id', $pf->id)
-                                            ->first();
-                                    @endphp
                                     @if ($harga)
                                         <a href="/update_price/{{ $harga->id }}">
-                                            {{ $harga ? 'Rp. ' . number_format($harga->harga, 0, ',', '.') : '' }}
+                                            {{ 'Rp. ' . number_format($harga->harga, 0, ',', '.') }}
                                         </a>
+                                    @else
+                                        -
+                                    @endif
+                                </td>
+                                <td>
+                                    @if ($harga)
+                                        {{-- Laba = target_laba (menu) * harga / 100 --}}
+                                        {{ 'Rp. ' . number_format($harga->harga - $m->hpp, 0, ',', '.') }}
                                     @else
                                         -
                                     @endif

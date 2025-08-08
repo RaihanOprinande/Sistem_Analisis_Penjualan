@@ -3,7 +3,12 @@
 namespace App\Repositories;
 
 use App\Interfaces\MenuInterface;
+use App\Models\Commission;
 use App\Models\Menu;
+use App\Models\Platfrom;
+use App\Models\Price;
+use Illuminate\Support\Facades\DB;
+use PhpParser\Node\Stmt\Foreach_;
 
 class MenuRepository implements MenuInterface
 {
@@ -24,14 +29,39 @@ class MenuRepository implements MenuInterface
     public function storedata($request)
     {
         try {
+            DB::beginTransaction();
             $validated = $request->validate([
             'menu_name' => 'required',
             'hpp' => 'required|numeric',
+            'target_laba' => 'required|numeric',
         ]);
-        Menu::create($validated);
+        $menu = Menu::create($validated);
+        // dd($request->all());
+
+        $platfroms = Platfrom::all();
+
+        foreach($platfroms as $pf){
+            $commission = Commission::where('platfrom_id', $pf->id)->orderBy('created_at', 'desc')->first();
+
+            $hpp = $menu->hpp;
+            $laba = $menu->target_laba;
+            $komisi = $commission ? $commission->komisi : 0;
+
+            $harga = $hpp + ($hpp * ($laba / 100)) / (1 - ($komisi / 100));
+
+             Price::create([
+                    'platfrom_id' => $pf->id,
+                    'menu_id' => $menu->id,
+                    'komisi_id' => $commission ? $commission->id : null,
+                    'harga' => $harga,
+                ]);
+            }
+            // dd($komisi);
+        DB::commit();
 
         return ['success' => true, 'message' => 'Menu has been added'];
         } catch (\Exception $e) {
+            DB::rollBack();
         return ['success' => false, 'message' => 'Failed to add menu : '. $e->getMessage()];
         }
     }

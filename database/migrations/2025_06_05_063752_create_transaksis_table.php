@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('transaksis', function (Blueprint $table) {
             $table->id();
+            $table->date('tanggal_transaksi');
+            $table->foreignId('platfrom_id');
+            $table->foreignId('menu_id');
+            $table->foreignId('komisi_id');
+            $table->integer('jumlah_pesanan');
+            $table->float('laba_kotor');
             $table->timestamps();
         });
     }

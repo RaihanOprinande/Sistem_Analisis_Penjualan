@@ -25,8 +25,14 @@
             @csrf
             <label for="platfrom">New Plafrom</label>
             <div class="md:col-span-5 flex">
-                <input type="text" name="platfrom" id="platfrom" class="h-10 border mt-1 rounded px-4 w-250 bg-gray-50"
-                    value="" />
+                <input type="text" name="platfrom" id="platfrom"
+                    class="h-10 border mt-1 rounded px-4 w-250 bg-gray-50 @error('platfrom') is-invalid @enderror"
+                    value="{{ old('platfrom') }}" />
+                @error('platfrom')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                @enderror
                 <button type="submit"
                     class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm ms-5 w-40 mt-1 col-span-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                     <p class="ms-5">
@@ -49,7 +55,7 @@
                     <tr>
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $item->platfrom }}</td>
-                        <td class="flex gap-2">
+
                             <button
                                 class="block text-white bg-yellow-500 hover:bg-yellow-400 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-yellow-600 dark:hover:bg-yellow-700 dark:focus:ring-yellow-600"
                                 onclick="UpdatePlatfrom(this)" data-platfrom="{{ json_encode($item) }}" type="button">

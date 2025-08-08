@@ -47,6 +47,7 @@
                     <th>No</th>
                     <th>Nama Menu</th>
                     <th>HPP</th>
+                    <th>Profit Percentage</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -56,7 +57,10 @@
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $menu->menu_name }}</td>
                         <td>Rp. {{ number_format($menu->hpp, 0, ',', '.') }}</td>
+                        <td>{{ $menu->target_laba }}%</td>
                         <td class="flex gap-2">
+                            <a class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                href="/create_price">Commission</a>
                             <button
                                 class="block text-white bg-yellow-500 hover:bg-yellow-400 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-yellow-600 dark:hover:bg-yellow-700 dark:focus:ring-yellow-600"
                                 onclick="UpdateMenu(this)" data-menu="{{ json_encode($menu) }}" type="button">

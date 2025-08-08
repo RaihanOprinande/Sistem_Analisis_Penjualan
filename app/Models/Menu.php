@@ -8,7 +8,8 @@ class Menu extends Model
 {
     protected $fillable = [
     'menu_name',
-    'hpp'
+    'hpp',
+    'target_laba'
     ];
 
     public function prices()

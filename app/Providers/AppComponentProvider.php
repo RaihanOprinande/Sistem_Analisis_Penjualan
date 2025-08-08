@@ -8,12 +8,14 @@ use App\Interfaces\MenuInterface;
 use App\Interfaces\PlatfromInterface;
 use App\Interfaces\PriceInterface;
 use App\Interfaces\RegisterInterface;
+use App\Interfaces\TransaksiInterface;
 use App\Repositories\CommissionRepository;
 use App\Repositories\RegisterRepository;
 use App\Repositories\LoginRepository;
 use App\Repositories\MenuRepository;
 use App\repositories\PlatfromRepository;
 use App\Repositories\PriceRepository;
+use App\Repositories\TransaksiRepository;
 use Illuminate\Support\ServiceProvider;
 
 class AppComponentProvider extends ServiceProvider
@@ -29,6 +31,7 @@ class AppComponentProvider extends ServiceProvider
         $this->app->bind(MenuInterface::class,MenuRepository::class);
         $this->app->bind(PlatfromInterface::class,PlatfromRepository::class);
         $this->app->bind(CommissionInterface::class,CommissionRepository::class);
+        $this->app->bind(TransaksiInterface::class,TransaksiRepository::class);
 
 
     }
