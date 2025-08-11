@@ -34,10 +34,10 @@ class commissionController extends Controller
         // $komisi->platfrom->id;
 
         if ($komisi['success']) {
-            return redirect('/komisi/'. $platfromId)->with('success', $komisi['message']);
+            return redirect()->back()->with('success', $komisi['message']);
         } else {
-            return redirect('/komisi/'. $platfromId)->with('error', $komisi['message']);
-        }
+            return redirect()->back()->with('error', $komisi['message']);
+    }
     }
 
         public function edit(string $id)

@@ -1,4 +1,18 @@
 @extends('layouts.main')
+@section('breadcrumbs')
+    <nav class="flex text-white" aria-label="Breadcrumb">
+        <ol class="inline-flex items-center space-x-1 md:space-x-3">
+            <li>
+                <a href="/dashboard" class="inline-flex items-center text-sm font-medium hover:underline">
+                    Dashboard
+                </a>
+                <span class="mx-2">/</span>
+                <span class="text-sm font-medium">Platfrom</span>
+
+            </li>
+        </ol>
+    </nav>
+@endsection
 @section('content')
     @include('platfrom.update')
     @include('platfrom.delete')
@@ -55,7 +69,9 @@
                     <tr>
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $item->platfrom }}</td>
-
+                        <td class="flex gap-2">
+                            <a class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                href="/platfrom/{{ $item->id }}">Commission</a>
                             <button
                                 class="block text-white bg-yellow-500 hover:bg-yellow-400 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-yellow-600 dark:hover:bg-yellow-700 dark:focus:ring-yellow-600"
                                 onclick="UpdatePlatfrom(this)" data-platfrom="{{ json_encode($item) }}" type="button">

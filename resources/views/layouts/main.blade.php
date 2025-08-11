@@ -24,6 +24,14 @@
         </div>
     </div>
     @include('layouts.footer')
+    <script>
+        setTimeout(function() {
+            const alertBox = document.getElementById('alert-box');
+            if (alertBox) {
+                alertBox.style.display = 'none';
+            }
+        }, 3000);
+    </script>
 
     {{-- <script src="../path/to/flowbite/dist/flowbite.min.js"></script> --}}
     <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>

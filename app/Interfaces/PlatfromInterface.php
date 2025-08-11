@@ -10,4 +10,6 @@ interface PlatfromInterface
     public function storedata(Request $request);
     public function updatedata(Request $request, $id);
     public function deletedata($id);
+    public function showdata($id);
+    public function showdatakomisi($id);
 }

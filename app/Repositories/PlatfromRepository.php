@@ -68,4 +68,18 @@ class PlatfromRepository implements PlatfromInterface
             return ['success' => false, 'message' => 'Failed to delete platfrom : ' . $e->getMessage()];
         }
     }
+
+    public function showdata($id)
+    {
+        $platfrom = Platfrom::find($id);
+        return $platfrom;
+    }
+    public function showdatakomisi($id)
+    {
+                $platfrom = Platfrom::find($id);
+                $komisi = Commission::where('platfrom_id', $platfrom->id)->get();
+                return $komisi;
+
+    }
+
 }

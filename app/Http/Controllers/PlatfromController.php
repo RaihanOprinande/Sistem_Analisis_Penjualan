@@ -51,7 +51,14 @@ class PlatfromController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $platfrom = $this->platfromInterface->showdata($id);
+        $komisi = $this->platfromInterface->showdatakomisi($id);
+
+        if ($platfrom) {
+            return view('platfrom.komisi.index', compact('platfrom', 'komisi'));
+        } else {
+            return redirect('/platfrom')->with('error', 'Platfrom not found');
+        }
     }
 
     /**
