@@ -44,6 +44,10 @@
                             @foreach ($platfrom as $pf)
                                 @php
                                     $harga = $price->where('menu_id', $m->id)->where('platfrom_id', $pf->id)->first();
+                                    $get_komisi = $komisi
+                                        ->where('platfrom_id', $pf->id)
+                                        ->sortByDesc('created_at')
+                                        ->first();
                                 @endphp
                                 <td>
                                     @if ($harga)
@@ -57,7 +61,8 @@
                                 <td>
                                     @if ($harga)
                                         {{-- Laba = target_laba (menu) * harga / 100 --}}
-                                        {{ 'Rp. ' . number_format($harga->harga - $m->hpp, 0, ',', '.') }}
+                                        {{-- {{ 'Rp. ' . number_format(($m->target_laba * $harga->harga) / 100, 0, ',', '.') }} --}}
+                                        {{ 'RP. ' . number_format($harga->harga * (1 - $get_komisi->komisi / 100) - $m->hpp, 0, ',', '.') }}
                                     @else
                                         -
                                     @endif

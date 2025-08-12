@@ -17,7 +17,8 @@ return new class extends Migration
             $table->foreignId('platfrom_id');
             $table->foreignId('menu_id');
             $table->foreignId('komisi_id');
-            $table->integer('jumlah_pesanan');
+            $table->integer('harga');
+            $table->float('jumlah_pesanan');
             $table->float('laba_kotor');
             $table->timestamps();
         });

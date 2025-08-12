@@ -12,9 +12,29 @@
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     {{-- <script src="jquery-3.7.1.min.js"></script> --}}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
+    <style>
+        .select2-container .select2-selection--single {
+            height: 44px !important;
+            display: flex;
+            align-items: center;
+            border-color: #6f7a85 !important;
+            /* garis hitam */
+            border-width: 1px !important;
+            border-style: solid !important;
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__rendered {
+            line-height: 44px !important;
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__arrow {
+            height: 44px !important;
+        }
+    </style>
     <div class="flex min-h-screen">
         <div class="w-64">
             @include('layouts.sidebar')
@@ -24,6 +44,7 @@
         </div>
     </div>
     @include('layouts.footer')
+
     <script>
         setTimeout(function() {
             const alertBox = document.getElementById('alert-box');

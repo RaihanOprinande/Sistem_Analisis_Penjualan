@@ -23,7 +23,8 @@ class PriceController extends Controller
     {   $price = $this->priceinterface->getallprice();
         $menu = $this->priceinterface->getallmenu();
         $platfrom = $this->priceinterface->getallplatfrom();
-        return view('price.index',compact('platfrom', 'menu','price'));
+        $komisi = $this->priceinterface->getallkomisi();
+        return view('price.index',compact('platfrom', 'menu','price', 'komisi'));
 
     }
 

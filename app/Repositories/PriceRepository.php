@@ -41,7 +41,7 @@ class PriceRepository implements PriceInterface
     }
     public function getallplatfrom()
     {
-        $platfrom = Platfrom::all();
+        $platfrom = Platfrom::with('komisi')->get();
 
         return $platfrom;
     }

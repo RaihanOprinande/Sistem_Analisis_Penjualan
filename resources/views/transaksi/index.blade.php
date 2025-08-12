@@ -1,0 +1,54 @@
+@extends('layouts.main')
+@section('content')
+    <div class="alert mx-auto" id="alert-box mb-2">
+        @if ($message = Session::get('success'))
+            <div class="bg-green-100 border-l-4 border-green-500 text-gray-800 p-4" role="alert">
+                <p class="font-bold">Success</p>
+                <p>{{ $message }}</p>
+            </div>
+        @elseif($message = Session::get('error'))
+            <div class="bg-red-100 border-l-4 border-red-500 text-gray-800 p-4" role="alert">
+                <p class="font-bold">Oops!</p>
+                <p>{{ $message }}</p>
+            </div>
+        @endif
+    </div>
+    <h1 class="text-4xl font-bold mb-5">
+        Transaction
+    </h1>
+    <div class="container">
+        <div class="flex justify-end mb-5">
+            <div class="flex justify-end mb-5">
+                <a class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                    href="/transaction/create">Add New Transaction</a>
+            </div>
+        </div>
+        <table class=" table-auto w-full" id="transaksitable">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Date</th>
+                    <th>Order Quantity</th>
+                    <th>Gross Profit</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($transaksi as $transaction)
+                    <tr>
+                        <td>{{ $loop->iteration }}</td>
+                        <td>{{ $transaction->tanggal_transaksi }}</td>
+                        {{-- <td>{{ $transaction->platfrom->platfrom }}</td> --}}
+                        {{-- <td>{{ $transaction->menu->menu_name }}</td> --}}
+                        <td>{{ $transaction->jumlah_pesanan }}</td>
+                        <td>{{ 'Rp.' . number_format($transaction->laba_kotor, 0, ',', '.') }}</td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+    <script>
+        $(document).ready(function() {
+            $('#transaksitable').DataTable();
+        });
+    </script>
+@endsection

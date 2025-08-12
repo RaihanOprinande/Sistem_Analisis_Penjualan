@@ -30,6 +30,59 @@
                 </div>
             </div>
         </div>
+        <div>
+            <a href="/transaction">
+                <canvas id="linechart"></canvas>
+            </a>
+        </div>
 
     </div>
+
+    <script>
+        const ctx = document.getElementById('linechart');
+
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: @json($labels),
+                datasets: [{
+                    label: 'Total Transaction',
+                    data: @json($penjualans),
+                    labaKotor: @json($laba_kotor),
+                    borderWidth: 2,
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    tension: 0.3
+                }]
+            },
+            options: {
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                const penjualan = context.parsed.y;
+                                const labaKotor = context.dataset.labaKotor[context.dataIndex];
+
+                                function formatRupiah(angka) {
+                                    return angka.toLocaleString('id-ID', {
+                                        style: 'currency',
+                                        currency: 'IDR'
+                                    });
+                                }
+                                return [
+                                    'Penjualan: ' + penjualan,
+                                    'Laba Kotor: ' + formatRupiah(labaKotor)
+                                ];
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: false
+                    }
+                }
+            }
+        });
+    </script>
 @endsection

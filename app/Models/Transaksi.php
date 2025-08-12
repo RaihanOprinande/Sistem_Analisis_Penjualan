@@ -6,5 +6,29 @@ use Illuminate\Database\Eloquent\Model;
 
 class Transaksi extends Model
 {
-    //
+    protected $fillable = [
+        'tanggal_transaksi',
+        'platfrom_id',
+        'menu_id',
+        'harga',
+        'jumlah_pesanan',
+        'laba_kotor'
+    ];
+
+    public function platfrom()
+    {
+        return $this->belongsTo(Platfrom::class, 'platfrom_id');
+    }
+
+    public function menu()
+    {
+        return $this->belongsTo(Menu::class, 'menu_id');
+    }
+
+    public function komisi()
+    {
+        return $this->belongsTo(Commission::class, 'komisi_id');
+    }
+
+
 }
