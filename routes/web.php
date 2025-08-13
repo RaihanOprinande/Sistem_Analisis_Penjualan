@@ -31,6 +31,7 @@ Route::resource('/platfrom',PlatfromController::class);
 Route::resource('/update_price',PriceController::class);
 Route::resource('/komisi',commissionController::class);
 Route::resource('/transaction',TransaksiController::class);
+Route::resource('/admin',RegisterController::class);
 
 Route::post('/komisi/store',[commissionController::class,'store']);
 Route::post('/login',[LoginController::class,'authenticate']);

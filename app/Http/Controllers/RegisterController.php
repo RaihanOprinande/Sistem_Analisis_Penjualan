@@ -18,7 +18,12 @@ class RegisterController extends Controller
     }
 
     public function index(){
-        return view('register');
+        $admin = $this->registerInterface->getalldata();
+        return view('admin.index',compact('admin'));
+    }
+
+    public function create(){
+        return view('admin.create');
     }
 
     public function store(Request $request){
@@ -26,10 +31,32 @@ class RegisterController extends Controller
         $register = $this->registerInterface->store($request);
 
         if ($register['success']) {
-            return redirect('/login')->with('success', $register['message']);
+            return redirect('/admin')->with('success', $register['message']);
         } else {
-            return redirect('/register')->with('error', $register['message']);
+            return redirect('/admin')->with('error', $register['message']);
         };
+    }
+
+        public function update(Request $request,string $id)
+    {
+        $admin = $this->registerInterface->updatedata($request, $id);
+
+        if ($admin['success']) {
+            return redirect('/admin')->with('success', $admin['message']);
+        } else {
+            return redirect('/admin')->with('error', $admin['message']);
+        }
+    }
+
+    public function destroy(string $id)
+    {
+        $register = $this->registerInterface->deletedata($id);
+
+        if ($register['success']) {
+            return redirect('/admin')->with('success', $register['message']);
+        } else {
+            return redirect('/admin')->with('error', $register['message']);
+        }
     }
 
 

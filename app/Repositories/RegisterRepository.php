@@ -38,5 +38,40 @@ class RegisterRepository implements RegisterInterface
         } catch (\Exception $e) {
         return ['success' => false, 'message' => 'Failed to add an account : '. $e->getMessage()];
     }
+
+    }
+        public function getalldata()
+    {
+        $admin = User::where('role', '0')->get();
+
+        return $admin;
+    }
+
+        public function deletedata($id)
+    {
+        try {
+            $user = User::find($id);
+            $user->delete();
+
+            return ['success' => true, 'message' => 'Admin has been deleted'];
+        } catch (\Exception $e) {
+            return ['success' => false, 'message' => 'Failed to delete admin : '. $e->getMessage()];
+        }
+    }
+
+    public function updatedata($request, $id)
+    {
+        try {
+            $validated = $request->validate([
+            'name' => 'string',
+            'email' => 'string|unique:users',
+        ]);
+        $admin = User::find($id);
+        $admin->update($validated);
+
+            return ['success' => true, 'message' => 'Admin has been updated'];
+        } catch (\Exception $e) {
+            return ['success' => false, 'message' => 'Failed to update admin : '. $e->getMessage()];
+        }
     }
 }
