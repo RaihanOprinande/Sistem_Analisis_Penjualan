@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AnalisisController;
 use App\Http\Controllers\commissionController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LoginController;
@@ -24,6 +25,8 @@ Route::get('/price/{id}',[PriceController::class,'byplatfrom']);
 Route::get('/create_price',[PriceController::class,'create']);
 Route::get('/update_price/{id}',[PriceController::class,'edit']);
 Route::get('/transaction/detail/{tanggal_transaksi}',[TransaksiController::class,'show']);
+Route::get('/analisis',[AnalisisController::class,'index']);
+Route::get('/api/analisis-data',[AnalisisController::class,'getChartData']);
 
 
 Route::resource('/menu',MenuController::class);

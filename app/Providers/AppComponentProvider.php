@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Interfaces\AnalisisInterface;
 use App\Interfaces\CommissionInterface;
 use App\Interfaces\LoginInterface;
 use App\Interfaces\MenuInterface;
@@ -9,6 +10,7 @@ use App\Interfaces\PlatfromInterface;
 use App\Interfaces\PriceInterface;
 use App\Interfaces\RegisterInterface;
 use App\Interfaces\TransaksiInterface;
+use App\Repositories\AnalisisRepository;
 use App\Repositories\CommissionRepository;
 use App\Repositories\RegisterRepository;
 use App\Repositories\LoginRepository;
@@ -32,6 +34,7 @@ class AppComponentProvider extends ServiceProvider
         $this->app->bind(PlatfromInterface::class,PlatfromRepository::class);
         $this->app->bind(CommissionInterface::class,CommissionRepository::class);
         $this->app->bind(TransaksiInterface::class,TransaksiRepository::class);
+        $this->app->bind(AnalisisInterface::class,AnalisisRepository::class);
 
 
     }
