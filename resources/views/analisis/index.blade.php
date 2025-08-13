@@ -3,7 +3,7 @@
     <nav class="flex text-white" aria-label="Breadcrumb">
         <ol class="inline-flex items-center space-x-1 md:space-x-3">
             <li>
-                <span class="mx-2 inline-flex items-center text-sm font-medium">Analisis</span>
+                <span class="mx-2 inline-flex items-center text-sm font-medium">Sales Analysis</span>
             </li>
         </ol>
     </nav>
@@ -22,7 +22,7 @@
             </div>
         @endif
     </div>
-    <h1 class="text-4xl font-bold">Analysis</h1>
+    <h1 class="text-4xl font-bold">Sales Analysis</h1>
     <div class="container mt-5">
         {{-- <div class="radiobutton">
             <ul class="grid w-full md:grid-cols-12">
@@ -61,16 +61,90 @@
         <div class="chart">
             <canvas id="chartPenjualan"></canvas>
         </div>
+        <div class="detail-chart mt-10">
+            <h1 class="text-2xl font-bold">Chart Insight</h1>
+            <div class="bulan-tertinggi">
+                <p>
+                    Penjualan mencapai puncaknya pada bulan <b>{{ $HquantityFormatted }}</b>
+                    dengan jumlah pesanan sebanyak <b>{{ number_format($Hquantity->total_quantity) }}</b> unit.
+                    {{-- {{ $Hquantity }} --}}
+                </p>
+                <p>
+                    Keuntungan (laba kotor) tertinggi terjadi pada bulan <b>{{ $HlabaFormatted }}</b>
+                    dengan nilai Rp <b>{{ number_format($Hlaba->total_laba, 2, ',', '.') }}</b>.
+                </p>
+            </div>
+        </div>
+        <div class="table w-full">
+            <h1 class="text-2xl mb-5 mt-10 font-bold">Highest Month Units Sold Table </h1>
+            <table class=" table-auto w-full" id="order">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Date</th>
+                        <th>Platfrom</th>
+                        <th>Menu</th>
+                        <th>Order Quantity</th>
+                        <th>Gross Profit</th>
+                        {{-- <th>Action</th> --}}
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($tableorder as $transaction)
+                        <tr>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $transaction->tanggal_transaksi }}</td>
+                            <td>{{ $transaction->platfrom->platfrom }}</td>
+                            <td>{{ $transaction->menu->menu_name }}</td>
+                            <td>{{ $transaction->jumlah_pesanan }}</td>
+                            <td>{{ 'Rp.' . number_format($transaction->laba_kotor, 0, ',', '.') }}</td>
+
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+            <h1 class="text-2xl mb-5 mt-10 font-bold">Highest Month Gross Profit Table </h1>
+            <table class=" table-auto w-full" id="grossprofit">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Date</th>
+                        <th>Platfrom</th>
+                        <th>Menu</th>
+                        <th>Order Quantity</th>
+                        <th>Gross Profit</th>
+                        {{-- <th>Action</th> --}}
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($tablesale as $transaction)
+                        <tr>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $transaction->tanggal_transaksi }}</td>
+                            <td>{{ $transaction->platfrom->platfrom }}</td>
+                            <td>{{ $transaction->menu->menu_name }}</td>
+                            <td>{{ $transaction->jumlah_pesanan }}</td>
+                            <td>{{ 'Rp.' . number_format($transaction->laba_kotor, 0, ',', '.') }}</td>
+
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <script>
+        $(document).ready(function() {
+            $('#order').DataTable();
+            $('#grossprofit').DataTable();
+        });
         const ctx = document.getElementById('chartPenjualan');
         new Chart(ctx, {
             type: 'line',
             data: {
                 labels: @json($labels),
                 datasets: [{
-                        label: 'Total Penjualan',
+                        label: 'Units Sold',
                         data: @json($total_pesanan),
                         borderWidth: 2,
                         borderColor: 'rgba(75, 192, 192, 1)',
@@ -79,7 +153,7 @@
                         yAxisID: 'y1'
                     },
                     {
-                        label: 'Laba Kotor',
+                        label: 'Gross Profit',
                         data: @json($laba_kotor),
                         borderWidth: 2,
                         borderColor: 'rgba(255, 99, 132, 1)',
@@ -100,7 +174,7 @@
                         beginAtZero: true,
                         title: {
                             display: true,
-                            text: 'Jumlah Pesanan' // Label sumbu Y1
+                            text: 'Units Sold' // Label sumbu Y1
                         }
                     },
                     y2: {
@@ -110,7 +184,7 @@
                         beginAtZero: true,
                         title: {
                             display: true,
-                            text: 'Laba Kotor (Rp)' // Label sumbu Y2
+                            text: 'Gross Profit (Rp)' // Label sumbu Y2
                         },
                         grid: {
                             drawOnChartArea: false, // Penting agar grid sumbu y2 tidak tumpang tindih

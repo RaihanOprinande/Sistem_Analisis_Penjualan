@@ -9,4 +9,9 @@ interface AnalisisInterface
     public function getPlatfromschart();
     public function getMenuschart();
     public function getSaleschart();
+    public function getSaleshighestlaba();
+    public function getSaleshighestquantity();
+    public function getSaleshighestmonth();
+    public function gettableorder();
+    public function gettablesales();
 }

@@ -130,7 +130,7 @@
                     <span class="flex-1 ms-3 whitespace-nowrap">Price</span>
                 </a>
             </li>
-            {{-- <li>
+            <li>
                 <a class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
                     aria-controls="dropdown-example" data-collapse-toggle="dropdown-example">
                     <svg class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
@@ -149,14 +149,14 @@
                     </svg>
                 </a>
                 <ul id="dropdown-example" class="hidden py-2 space-y-2">
-                    @foreach ($platfrom as $pf)
-                        <li>
-                            <a href="/komisi/{{ $pf->id }}"
-                                class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">{{ $pf->platfrom }}</a>
-                        </li>
-                    @endforeach
+                    <a href="/analisis/sales"
+                        class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">Sales</a>
+                    <a href="/analisis/platfroms"
+                        class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">Platfroms</a>
+                    <a href="/analisis/menus"
+                        class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 pl-11">Menus</a>
                 </ul>
-            </li> --}}
+            </li>
             <li>
                 <a href="/transaction"
                     class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">

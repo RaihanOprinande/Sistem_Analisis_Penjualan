@@ -39,7 +39,7 @@
         <div class="w-64">
             @include('layouts.sidebar')
         </div>
-        <div class="flex-1 container pt-16 ms-10 mt-10 me-10">
+        <div class="flex-1 container pt-16 ms-10 mb-10 mt-10 me-10">
             @yield('content')
         </div>
     </div>

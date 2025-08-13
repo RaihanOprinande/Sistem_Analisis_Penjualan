@@ -25,8 +25,9 @@ Route::get('/price/{id}',[PriceController::class,'byplatfrom']);
 Route::get('/create_price',[PriceController::class,'create']);
 Route::get('/update_price/{id}',[PriceController::class,'edit']);
 Route::get('/transaction/detail/{tanggal_transaksi}',[TransaksiController::class,'show']);
-Route::get('/analisis',[AnalisisController::class,'index']);
-Route::get('/api/analisis-data',[AnalisisController::class,'getChartData']);
+Route::get('/analisis/sales',[AnalisisController::class,'SalesChart']);
+// ...
+// Route::get('/api/transaksi-bulan', [AnalisisController::class, 'getTransactionsByMonth'])->name('analisis.transaksi.bulan');
 
 
 Route::resource('/menu',MenuController::class);
