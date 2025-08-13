@@ -42,7 +42,9 @@ class TransaksiController extends Controller
         }
     }
 
-    public function show($id){
+    public function show($tanggal_transaksi){
+        $tanggal_transaksi = $this->transaksiInterface->detailTransaction($tanggal_transaksi);
 
+        return view('transaksi.detail',compact('tanggal_transaksi'));
     }
 }

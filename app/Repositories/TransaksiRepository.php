@@ -66,4 +66,10 @@ class TransaksiRepository implements TransaksiInterface
             return ['success' => false, 'message' => 'Failed to add platfrom : ' . $e->getMessage()];
         }
     }
+
+    public function detailTransaction($tanggal_transaksi)
+    {
+        $transaksi = Transaksi::whereDate('tanggal_transaksi', $tanggal_transaksi)->get();
+        return $transaksi;
+    }
 }

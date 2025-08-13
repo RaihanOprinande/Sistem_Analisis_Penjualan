@@ -8,5 +8,6 @@ interface TransaksiInterface
     public function getallmenu();
     public function getallplatfrom();
     public function store($request);
+    public function detailTransaction($year_month);
 
 }

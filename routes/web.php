@@ -23,6 +23,7 @@ Route::get('/price',[PriceController::class,'index']);
 Route::get('/price/{id}',[PriceController::class,'byplatfrom']);
 Route::get('/create_price',[PriceController::class,'create']);
 Route::get('/update_price/{id}',[PriceController::class,'edit']);
+Route::get('/transaction/detail/{tanggal_transaksi}',[TransaksiController::class,'show']);
 
 
 Route::resource('/menu',MenuController::class);
