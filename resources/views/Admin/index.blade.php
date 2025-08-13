@@ -26,7 +26,7 @@
             </div>
         @endif
     </div>
-    <h1 class="text-4xl font-bold">Menu</h1>
+    <h1 class="text-4xl font-bold">Admin</h1>
     <div class="container">
         <div class="flex justify-end mb-5">
             <div class="flex justify-end mb-5">

@@ -31,12 +31,13 @@ class RegisterRepository implements RegisterInterface
             [
                 'name' => $validated['name'],
                 'email' => $validated['email'],
+                'role' => 0,
                 'password' => Hash::make($validated['password'])
             ]
         );
-        return ['success' => true, 'message' => 'your account has been created'];
+        return ['success' => true, 'message' => 'Admin has been created'];
         } catch (\Exception $e) {
-        return ['success' => false, 'message' => 'Failed to add an account : '. $e->getMessage()];
+        return ['success' => false, 'message' => 'Failed to add an Admin : '. $e->getMessage()];
     }
 
     }

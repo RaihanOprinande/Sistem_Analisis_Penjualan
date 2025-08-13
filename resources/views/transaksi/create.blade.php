@@ -67,6 +67,7 @@
                     class="h-10 border mt-1 rounded px-4 w-full bg-gray-50 @error('harga') is-invalid @enderror"
                     value="{{ old('harga') }}" />
             </div>
+            <input type="hidden" name="role" value="0">
 
             <button type="submit"
                 class="text-white flex justify-center items-center btn cursor-pointer bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-35 h-10 mt-5 col-span-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 ">
