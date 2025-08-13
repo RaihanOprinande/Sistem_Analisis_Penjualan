@@ -3,10 +3,6 @@
     <nav class="flex text-white" aria-label="Breadcrumb">
         <ol class="inline-flex items-center space-x-1 md:space-x-3">
             <li>
-                <a href="/dashboard" class="inline-flex items-center text-sm font-medium hover:underline">
-                    Dashboard
-                </a>
-                <span class="mx-2">/</span>
                 <a href="/platfrom" class="inline-flex items-center text-sm font-medium hover:underline">
                     Platfrom
                 </a>
@@ -32,9 +28,9 @@
             </div>
         @endif
     </div>
-    <h1 class="text-4xl font-bold mb-5">Commission</h1>
+    <h1 class="text-4xl font-bold mb-5">{{ $platfrom->platfrom }} Commission</h1>
     <div class="container">
-        <h2 class="text-3xl font-medium mb-5">{{ $platfrom->platfrom }} Commission</h2>
+        {{-- <h2 class="text-3xl font-medium mb-5">{{ $platfrom->platfrom }} Commission</h2> --}}
         <div class="flex justify-end mb-5">
             <button data-modal-target="crud-modal" data-modal-toggle="crud-modal"
                 class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"

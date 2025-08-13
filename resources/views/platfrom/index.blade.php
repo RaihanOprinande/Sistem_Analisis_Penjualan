@@ -3,11 +3,9 @@
     <nav class="flex text-white" aria-label="Breadcrumb">
         <ol class="inline-flex items-center space-x-1 md:space-x-3">
             <li>
-                <a href="/dashboard" class="inline-flex items-center text-sm font-medium hover:underline">
-                    Dashboard
+                <a href="/platfrom" class="inline-flex items-center text-sm font-medium hover:underline">
+                    Platfrom
                 </a>
-                <span class="mx-2">/</span>
-                <span class="text-sm font-medium">Platfrom</span>
 
             </li>
         </ol>

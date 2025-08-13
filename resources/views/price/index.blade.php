@@ -1,5 +1,12 @@
 @extends('layouts.main')
 @section('breadcrumbs')
+    <nav class="flex text-white" aria-label="Breadcrumb">
+        <ol class="inline-flex items-center space-x-1 md:space-x-3">
+            <li>
+                <span class="mx-2 inline-flex items-center text-sm font-medium">Recomendation Price</span>
+            </li>
+        </ol>
+    </nav>
 @endsection
 @section('content')
     <div class="alert mx-auto" id="alert-box mb-2">

@@ -1,4 +1,15 @@
 @extends('layouts.main')
+@section('breadcrumbs')
+    <nav class="flex text-white" aria-label="Breadcrumb">
+        <ol class="inline-flex items-center space-x-1 md:space-x-3">
+            <li>
+                <a href="/transaction" class="inline-flex items-center text-sm font-medium hover:underline">
+                    Transaction
+                </a>
+            </li>
+        </ol>
+    </nav>
+@endsection
 @section('content')
     <div class="alert mx-auto" id="alert-box mb-2">
         @if ($message = Session::get('success'))
