@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Interfaces\AnalisisInterface;
 use App\Models\Transaksi;
+use Illuminate\Support\Facades\DB;
 
 class AnalisisRepository implements AnalisisInterface
 {
@@ -113,5 +114,29 @@ class AnalisisRepository implements AnalisisInterface
         $data = Transaksi::whereMonth('tanggal_transaksi', $month)->whereYear('tanggal_transaksi',$year)->with('platfrom','menu')->get();
 
         return $data;
+    }
+
+    public function getplatfromchart()
+    {
+        $platfrom = DB::table('transaksis')
+            ->select('platfroms.platfrom', DB::raw('SUM(transaksis.laba_kotor) as total_laba_kotor'))
+            ->join('platfroms', 'transaksis.platfrom_id', '=', 'platfroms.id')
+            ->groupBy('platfroms.platfrom')
+            ->orderBy('total_laba_kotor', 'desc')
+            ->get();
+
+            // $cek = dd($platfrom);
+        return $platfrom;
+    }
+
+    public function getPlatfromhighestgross(){
+        $filter = Transaksi::with('platfrom')->selectRaw('platfrom_id, SUM(laba_kotor) as laba_kotor')
+                    ->groupBy('platfrom_id')
+                    ->orderBy('laba_kotor','desc')
+                    ->first();
+        $platfrom_id = $filter->platfrom_id;
+        $platfrom = Transaksi::with('platfrom')->where('platfrom_id',$platfrom_id)->get();
+
+            return $platfrom;
     }
 }

@@ -42,6 +42,19 @@ class AnalisisController extends Controller
         $data_month_sales = explode('-', $data_month_sales->bulan_tahun);
         $HlabaFormatted = $Bulan[$data_month_sales[1]] . ' ' . $data_month_sales[0];
         // dd($table);
-        return view('analisis.index', compact('total_pesanan', 'labels', 'laba_kotor', 'Hlaba', 'HquantityFormatted','Hquantity','HlabaFormatted', 'tableorder','tablesale'));
+        return view('analisis.sales', compact('total_pesanan', 'labels', 'laba_kotor', 'Hlaba', 'HquantityFormatted','Hquantity','HlabaFormatted', 'tableorder','tablesale'));
+    }
+
+    public function PlatfromChart()
+    {
+        $data = $this->analisisRepository->getplatfromchart();
+        $platfrom = $this->analisisRepository->getPlatfromhighestgross();
+        $labels = $data->pluck('platfrom')->toArray();
+        $laba_kotor = $data->pluck('total_laba_kotor')->toArray();
+
+        $pfuntung = $data->sortByDesc('total_laba_kotor')->first();
+
+        // dd($platfrom);
+        return view('analisis.platfrom', compact('labels',  'laba_kotor','pfuntung','platfrom'));
     }
 }

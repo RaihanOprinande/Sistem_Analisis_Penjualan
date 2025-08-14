@@ -14,4 +14,6 @@ interface AnalisisInterface
     public function getSaleshighestmonth();
     public function gettableorder();
     public function gettablesales();
+    public function getplatfromchart();
+    public function getPlatfromhighestgross();
 }

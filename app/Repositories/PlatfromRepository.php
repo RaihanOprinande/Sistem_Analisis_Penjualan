@@ -33,8 +33,8 @@ class PlatfromRepository implements PlatfromInterface
             Platfrom::create($validated);
             Commission::create([
                 'platfrom_id' => Platfrom::latest()->first()->id,
-                'komisi' => null,
-                'tanggal_berlaku' =>null,
+                'komisi' => $request->komisi,
+                'tanggal_berlaku' =>$request->tanggal_berlaku,
             ]);
             DB::commit();
 

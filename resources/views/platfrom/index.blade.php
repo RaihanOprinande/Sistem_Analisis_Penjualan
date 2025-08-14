@@ -12,6 +12,7 @@
     </nav>
 @endsection
 @section('content')
+    @include('platfrom.create')
     @include('platfrom.update')
     @include('platfrom.delete')
 
@@ -33,26 +34,13 @@
     </div>
     <div class="container">
 
-        <form action="price/platfrom/store" method="POST" class="mb-5">
-            @csrf
-            <label for="platfrom">New Plafrom</label>
-            <div class="md:col-span-5 flex">
-                <input type="text" name="platfrom" id="platfrom"
-                    class="h-10 border mt-1 rounded px-4 w-250 bg-gray-50 @error('platfrom') is-invalid @enderror"
-                    value="{{ old('platfrom') }}" />
-                @error('platfrom')
-                    <div class="invalid-feedback">
-                        {{ $message }}
-                    </div>
-                @enderror
-                <button type="submit"
-                    class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm ms-5 w-40 mt-1 col-span-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                    <p class="ms-5">
-                        Add new platfrom
-                    </p>
-                </button>
-            </div>
-        </form>
+        <div class="flex justify-end mb-5">
+            <button data-modal-target="crud-modal" data-modal-toggle="crud-modal"
+                class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                type="button">
+                Add New Platfrom
+            </button>
+        </div>
 
         <table id="platfromTable" class="display">
             <thead>
