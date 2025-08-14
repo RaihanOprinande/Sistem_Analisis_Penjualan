@@ -60,21 +60,32 @@ class TransaksiController extends Controller
     if ($request->filled('start_date') && $request->filled('end_date')) {
         $transaksis = Transaksi::whereBetween('tanggal_transaksi', [$request->start_date, $request->end_date])
             ->with('platfrom', 'menu')
-            ->orderBy('tanggal_transaksi', 'asc') // Pindahkan orderBy() sebelum get()
-            ->get(); // Tambahkan ->get() di sini
+            ->orderBy('tanggal_transaksi', 'asc')
+            ->get();
+
+                    $ringkasanBulanIni = Transaksi::selectRaw('SUM(laba_kotor) as total_laba_kotor, SUM(jumlah_pesanan) as total_penjualan')
+            ->whereBetween('tanggal_transaksi', [$request->start_date, $request->end_date])
+            ->first();
 
         $tanggal_mulai = $request->start_date;
         $tanggal_akhir = $request->end_date;
+
+            $ringkasanPerPlatform = Transaksi::join('platfroms', 'transaksis.platfrom_id', '=', 'platfroms.id')
+            ->selectRaw('platfroms.platfrom as platfrom_name, SUM(transaksis.jumlah_pesanan) as total_penjualan, SUM(transaksis.laba_kotor) as total_laba_kotor')
+            ->whereBetween('tanggal_transaksi', [$request->start_date, $request->end_date])
+            ->groupBy('platfroms.platfrom')
+            ->orderByDesc('total_laba_kotor')
+            ->get();
     } else {
         $transaksis = Transaksi::with('platfrom', 'menu')
-            ->orderBy('tanggal_transaksi', 'desc') // Pastikan ada orderBy() juga di sini
+            ->orderBy('tanggal_transaksi', 'desc') 
             ->get();
 
         $tanggal_mulai = Transaksi::min('tanggal_transaksi');
         $tanggal_akhir = Transaksi::max('tanggal_transaksi');
     }
 
-    $pdf = Pdf::loadView('transaksi.pdf', compact('transaksis', 'tanggal_mulai', 'tanggal_akhir'));
+    $pdf = Pdf::loadView('transaksi.pdf', compact('transaksis', 'tanggal_mulai', 'tanggal_akhir','ringkasanPerPlatform','ringkasanBulanIni'));
 
     return $pdf->stream('laporan-transaksi-' . date('Y-m-d') . '.pdf');
     }

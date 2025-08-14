@@ -30,6 +30,39 @@
 <body>
     <h1 style="text-align: center;">Laporan Transaksi</h1>
     <p>Periode: {{ date('d-m-Y', strtotime($tanggal_mulai)) }} s/d {{ date('d-m-Y', strtotime($tanggal_akhir)) }}</p>
+    @if ($ringkasanBulanIni->total_laba_kotor)
+        <div style="margin-bottom: 20px;">
+            <p><b>Ringkasan Bulan Ini:</b></p>
+            <ul>
+                <li>Total Laba Kotor: Rp {{ number_format($ringkasanBulanIni->total_laba_kotor, 2, ',', '.') }}</li>
+                <li>Total Penjualan: {{ number_format($ringkasanBulanIni->total_penjualan, 0, ',', '.') }} unit</li>
+            </ul>
+        </div>
+    @endif
+
+    @if ($ringkasanPerPlatform->isNotEmpty())
+        <div style="margin-bottom: 20px;">
+            <p><b>Ringkasan Per Platform:</b></p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Platform</th>
+                        <th>Total Penjualan</th>
+                        <th>Total Laba Kotor</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($ringkasanPerPlatform as $ringkasan)
+                        <tr>
+                            <td>{{ $ringkasan->platfrom_name }}</td>
+                            <td>{{ number_format($ringkasan->total_penjualan, 0, ',', '.') }} unit</td>
+                            <td>Rp {{ number_format($ringkasan->total_laba_kotor, 2, ',', '.') }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    @endif
     <table>
         <thead>
             <tr>

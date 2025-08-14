@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Transaksi;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
@@ -36,7 +37,17 @@ class DashboardController extends Controller
     $get_harga = $data_harga->pluck('harga');
     $aov = $get_harga->sum() / $hitung_transaksi;
     // dd($aov);
-    return view('dashboard', compact('labels', 'penjualans','laba_kotor','jumlah_pesanan', 'Alaba_kotor','aov'));
+
+            $getplatfrom = DB::table('transaksis')
+            ->select('platfroms.platfrom', DB::raw('SUM(transaksis.laba_kotor) as total_laba_kotor'))
+            ->join('platfroms', 'transaksis.platfrom_id', '=', 'platfroms.id')
+            ->groupBy('platfroms.platfrom')
+            ->orderBy('total_laba_kotor', 'desc')
+            ->get();
+
+            $platfrom = $getplatfrom->first();
+
+    return view('dashboard', compact('labels', 'penjualans','laba_kotor','jumlah_pesanan', 'Alaba_kotor','aov','platfrom'));
     }
 
 

@@ -3,7 +3,7 @@
     <nav class="flex text-white" aria-label="Breadcrumb">
         <ol class="inline-flex items-center space-x-1 md:space-x-3">
             <li>
-                <span class="mx-2 inline-flex items-center text-sm font-medium">Recomendation Price</span>
+                <span class="mx-2 inline-flex items-center text-sm font-medium">Price Recomendation </span>
             </li>
         </ol>
     </nav>
@@ -22,12 +22,12 @@
             </div>
         @endif
     </div>
-    <h1 class="text-4xl font-bold mb-5">Price</h1>
+    <h1 class="text-4xl font-bold mb-5">Price Recomendation</h1>
     <div class="container">
-        <div class="flex justify-end mb-5">
+        {{-- <div class="flex justify-end mb-5">
             <a class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                 href="/create_price">Add New Price</a>
-        </div>
+        </div> --}}
         <div class="tobul">
             <table id="priceTable" class="display">
                 <thead>
@@ -58,9 +58,9 @@
                                 @endphp
                                 <td>
                                     @if ($harga)
-                                        <a href="/update_price/{{ $harga->id }}">
-                                            {{ 'Rp. ' . number_format($harga->harga, 0, ',', '.') }}
-                                        </a>
+                                        {{-- <a href="/update_price/{{ $harga->id }}"> --}}
+                                        {{ 'Rp. ' . number_format($harga->harga, 0, ',', '.') }}
+                                        {{-- </a> --}}
                                     @else
                                         -
                                     @endif

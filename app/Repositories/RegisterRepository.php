@@ -6,6 +6,7 @@ use App\Interfaces\RegisterInterface;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 
 class RegisterRepository implements RegisterInterface
 {
@@ -63,12 +64,22 @@ class RegisterRepository implements RegisterInterface
     public function updatedata($request, $id)
     {
         try {
+            $user = User::findOrFail($id);
             $validated = $request->validate([
             'name' => 'string',
-            'email' => 'string|unique:users',
+                        'email' => [
+                'required',
+                'string',
+                'email',
+                'max:255',
+                Rule::unique('users')->ignore($user->id),
+            ],
         ]);
-        $admin = User::find($id);
-        $admin->update($validated);
+        // $admin = User::find($id);
+                $user->update([
+            'name' => $request->name,
+            'email' => $request->email,
+        ]);
 
             return ['success' => true, 'message' => 'Admin has been updated'];
         } catch (\Exception $e) {

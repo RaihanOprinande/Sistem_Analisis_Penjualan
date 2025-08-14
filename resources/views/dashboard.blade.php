@@ -1,4 +1,13 @@
 @extends('layouts.main')
+@section('breadcrumbs')
+    <nav class="flex text-white" aria-label="Breadcrumb">
+        <ol class="inline-flex items-center space-x-1 md:space-x-3">
+            <li>
+                <span>Dashboard</span>
+            </li>
+        </ol>
+    </nav>
+@endsection
 @section('content')
     <div class="dashboard">
 
@@ -29,13 +38,14 @@
 
                 <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Most Profitable Platfrom
                 </h5>
-                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Rp.
-                    {{ number_format($aov, '0', ',', '.') }}</h5>
+                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                    {{ $platfrom->platfrom }}</h5>
             </a>
 
         </div>
         <div class="chart w-full ">
-            <a href="/transaction">
+            <h1 class="text-3xl font-bold mt">Sales Chart</h1>
+            <a href="/analisis/sales">
                 <canvas id="linechart"></canvas>
                 {{-- <canvas id="linechart"></canvas> --}}
             </a>
