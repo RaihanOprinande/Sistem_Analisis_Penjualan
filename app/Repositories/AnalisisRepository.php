@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Interfaces\AnalisisInterface;
+use App\Models\Menu;
 use App\Models\Transaksi;
 use Illuminate\Support\Facades\DB;
 
@@ -149,5 +150,11 @@ class AnalisisRepository implements AnalisisInterface
             ->get();
 
             return $menu;
+    }
+
+    public function getmenu(){
+        $menu = Menu::all();
+
+        return $menu;
     }
 }

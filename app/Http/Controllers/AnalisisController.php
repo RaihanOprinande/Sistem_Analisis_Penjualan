@@ -62,7 +62,9 @@ class AnalisisController extends Controller
         $data = $this->analisisRepository->getmenuchart();
         $labels = $data->pluck('menu_name')->toArray();
         $jumlah_pesanan = $data->pluck('total_pesanan')->toArray();
+        $menu = $this->analisisRepository->getmenu();
+        $menu_terlaris = $data->sortByDesc('total_pesanan')->first();
 
-        return view('analisis.menu',compact('labels','jumlah_pesanan'));
+        return view('analisis.menu',compact('labels','jumlah_pesanan','menu_terlaris','menu'));
     }
 }

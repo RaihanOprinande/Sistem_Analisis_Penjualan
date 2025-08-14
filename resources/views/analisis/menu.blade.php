@@ -62,45 +62,43 @@
             <canvas id="chartMenu"></canvas>
         </div>
 
-        {{-- <div class="detail-chart mt-10">
+        <div class="detail-chart mt-10">
             <h1 class="text-2xl font-bold">Chart Insight</h1>
             <div class="bulan-tertinggi">
                 <p>
-                    Platfrom paling menguntungkan adalah <b>{{ $pfuntung->platfrom }}</b>
-                    dengan laba kotor sebanyak Rp. <b>{{ number_format($pfuntung->total_laba_kotor, '2', ',', '.') }}</b>
+                    Menu paling laris adalah <b>{{ $menu_terlaris->menu_name }}</b>
+                    dipesan sebanyak <b>{{ $menu_terlaris->total_pesanan }}</b> kali
                 </p>
 
             </div>
-        </div> --}}
-        {{-- <div class="table w-full">
-            <h1 class="text-2xl mb-5 mt-10 font-bold">Highest Platfrom Gross Profit Table </h1>
-            <table class=" table-auto w-full" id="platfrom">
+        </div>
+        <div class="table w-full">
+            <h1 class="text-2xl mb-5 mt-10 font-bold">Menu Table </h1>
+            <table class=" table-auto w-full" id="menu">
                 <thead>
                     <tr>
                         <th>No</th>
-                        <th>Date</th>
-                        <th>Platfrom</th>
                         <th>Menu</th>
-                        <th>Order Quantity</th>
-                        <th>Gross Profit</th>
+                        <th>HPP</th>
+                        <th>Profit Percentage</th>
+
 
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($platfrom as $transaction)
+                    @foreach ($menu as $transaction)
                         <tr>
                             <td>{{ $loop->iteration }}</td>
-                            <td>{{ $transaction->tanggal_transaksi }}</td>
-                            <td>{{ $transaction->platfrom->platfrom }}</td>
-                            <td>{{ $transaction->menu->menu_name }}</td>
-                            <td>{{ $transaction->jumlah_pesanan }}</td>
-                            <td>{{ 'Rp.' . number_format($transaction->laba_kotor, 0, ',', '.') }}</td>
+                            <td>{{ $transaction->menu_name }}</td>
+                            <td>Rp. {{ number_format($transaction->hpp, '0', ',', '.') }}</td>
+                            <td>{{ $transaction->target_laba }} %</td>
+
 
                         </tr>
                     @endforeach
                 </tbody>
             </table>
-        </div> --}}
+        </div>
 
     </div>
 
@@ -149,13 +147,13 @@
                         beginAtZero: true,
                         title: {
                             display: true,
-                            text: 'Total Laba Kotor (IDR)'
+                            text: 'Unit Sold'
                         }
                     },
                     x: {
                         title: {
                             display: true,
-                            text: 'Platform'
+                            text: 'Menus'
                         }
                     }
                 }
