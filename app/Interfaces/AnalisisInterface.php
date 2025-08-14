@@ -16,4 +16,5 @@ interface AnalisisInterface
     public function gettablesales();
     public function getplatfromchart();
     public function getPlatfromhighestgross();
+    public function getmenuchart();
 }

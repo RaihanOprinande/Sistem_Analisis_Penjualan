@@ -57,4 +57,12 @@ class AnalisisController extends Controller
         // dd($platfrom);
         return view('analisis.platfrom', compact('labels',  'laba_kotor','pfuntung','platfrom'));
     }
+
+    public function MenuChart(){
+        $data = $this->analisisRepository->getmenuchart();
+        $labels = $data->pluck('menu_name')->toArray();
+        $jumlah_pesanan = $data->pluck('total_pesanan')->toArray();
+
+        return view('analisis.menu',compact('labels','jumlah_pesanan'));
+    }
 }

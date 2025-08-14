@@ -139,4 +139,15 @@ class AnalisisRepository implements AnalisisInterface
 
             return $platfrom;
     }
+
+    public function getmenuchart(){
+                $menu = DB::table('transaksis')
+            ->select('menus.menu_name', DB::raw('SUM(transaksis.jumlah_pesanan) as total_pesanan'))
+            ->join('menus', 'transaksis.menu_id', '=', 'menus.id')
+            ->groupBy('menus.menu_name')
+            ->orderBy('total_pesanan', 'desc')
+            ->get();
+
+            return $menu;
+    }
 }

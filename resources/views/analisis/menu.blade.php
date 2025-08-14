@@ -3,7 +3,7 @@
     <nav class="flex text-white" aria-label="Breadcrumb">
         <ol class="inline-flex items-center space-x-1 md:space-x-3">
             <li>
-                <span class="mx-2 inline-flex items-center text-sm font-medium">Platfrom Analysis</span>
+                <span class="mx-2 inline-flex items-center text-sm font-medium">Menu Analysis</span>
             </li>
         </ol>
     </nav>
@@ -22,7 +22,7 @@
             </div>
         @endif
     </div>
-    <h1 class="text-4xl font-bold">Platfrom Analysis</h1>
+    <h1 class="text-4xl font-bold">Menu Analysis</h1>
     <div class="container mt-5">
         {{-- <div class="radiobutton">
             <ul class="grid w-full md:grid-cols-12">
@@ -59,10 +59,10 @@
 
         </div> --}}
         <div class="chart">
-            <canvas id="chartPlatfrom"></canvas>
+            <canvas id="chartMenu"></canvas>
         </div>
 
-        <div class="detail-chart mt-10">
+        {{-- <div class="detail-chart mt-10">
             <h1 class="text-2xl font-bold">Chart Insight</h1>
             <div class="bulan-tertinggi">
                 <p>
@@ -71,8 +71,8 @@
                 </p>
 
             </div>
-        </div>
-        <div class="table w-full">
+        </div> --}}
+        {{-- <div class="table w-full">
             <h1 class="text-2xl mb-5 mt-10 font-bold">Highest Platfrom Gross Profit Table </h1>
             <table class=" table-auto w-full" id="platfrom">
                 <thead>
@@ -83,7 +83,7 @@
                         <th>Menu</th>
                         <th>Order Quantity</th>
                         <th>Gross Profit</th>
-                        {{-- <th>Action</th> --}}
+
                     </tr>
                 </thead>
                 <tbody>
@@ -100,44 +100,44 @@
                     @endforeach
                 </tbody>
             </table>
-        </div>
+        </div> --}}
 
     </div>
 
     <script>
         $(document).ready(function() {
-            $('#platfrom').DataTable();
+            $('#menu').DataTable();
             // $('#grossprofit').DataTable();
         });
         // Menerima data dari PHP dan menggunakannya di JavaScript
         // Kita menggunakan `json_encode` agar data bisa dibaca oleh JavaScript dengan aman
         const labels = @json($labels);
-        const data = @json($laba_kotor);
+        const data = @json($jumlah_pesanan);
 
-        const ctx = document.getElementById('chartPlatfrom').getContext('2d');
+        const ctx = document.getElementById('chartMenu').getContext('2d');
 
         new Chart(ctx, {
             type: 'bar',
             data: {
                 labels: labels,
                 datasets: [{
-                    label: 'Total Laba Kotor',
+                    label: 'Total Unit Sold',
                     data: data,
                     backgroundColor: [
-                        'rgba(255, 99, 132, 0.5)',
-                        'rgba(54, 162, 235, 0.5)',
+                        //     'rgba(255, 99, 132, 0.5)',
+                        //     'rgba(54, 162, 235, 0.5)',
                         'rgba(255, 206, 86, 0.5)',
-                        'rgba(75, 192, 192, 0.5)',
-                        'rgba(153, 102, 255, 0.5)',
-                        'rgba(255, 159, 64, 0.5)'
+                        // 'rgba(75, 192, 192, 0.5)',
+                        // 'rgba(153, 102, 255, 0.5)',
+                        // 'rgba(255, 159, 64, 0.5)'
                     ],
                     borderColor: [
                         'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
+                        // 'rgba(54, 162, 235, 1)',
+                        // 'rgba(255, 206, 86, 1)',
+                        // 'rgba(75, 192, 192, 1)',
+                        // 'rgba(153, 102, 255, 1)',
+                        // 'rgba(255, 159, 64, 1)'
                     ],
                     borderWidth: 1
                 }]
