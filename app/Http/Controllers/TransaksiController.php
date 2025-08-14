@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Interfaces\TransaksiInterface;
 use App\Models\Menu;
 use App\Models\Platfrom;
+use App\Models\Transaksi;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 
 class TransaksiController extends Controller
@@ -46,5 +48,34 @@ class TransaksiController extends Controller
         $tanggal_transaksi = $this->transaksiInterface->detailTransaction($tanggal_transaksi);
 
         return view('transaksi.detail',compact('tanggal_transaksi'));
+    }
+
+        public function Pdf(Request $request)
+    {
+                // Ambil data transaksi dari database
+    $tanggal_mulai = null;
+    $tanggal_akhir = null;
+    $transaksis = collect(); // Inisialisasi collection kosong
+
+    if ($request->filled('start_date') && $request->filled('end_date')) {
+        $transaksis = Transaksi::whereBetween('tanggal_transaksi', [$request->start_date, $request->end_date])
+            ->with('platfrom', 'menu')
+            ->orderBy('tanggal_transaksi', 'asc') // Pindahkan orderBy() sebelum get()
+            ->get(); // Tambahkan ->get() di sini
+
+        $tanggal_mulai = $request->start_date;
+        $tanggal_akhir = $request->end_date;
+    } else {
+        $transaksis = Transaksi::with('platfrom', 'menu')
+            ->orderBy('tanggal_transaksi', 'desc') // Pastikan ada orderBy() juga di sini
+            ->get();
+
+        $tanggal_mulai = Transaksi::min('tanggal_transaksi');
+        $tanggal_akhir = Transaksi::max('tanggal_transaksi');
+    }
+
+    $pdf = Pdf::loadView('transaksi.pdf', compact('transaksis', 'tanggal_mulai', 'tanggal_akhir'));
+
+    return $pdf->stream('laporan-transaksi-' . date('Y-m-d') . '.pdf');
     }
 }

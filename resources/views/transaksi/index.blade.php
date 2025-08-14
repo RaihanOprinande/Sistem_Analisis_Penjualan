@@ -11,6 +11,7 @@
     </nav>
 @endsection
 @section('content')
+    @include('transaksi.filter')
     <div class="alert mx-auto" id="alert-box mb-2">
         @if ($message = Session::get('success'))
             <div class="bg-green-100 border-l-4 border-green-500 text-gray-800 p-4" role="alert">
@@ -28,7 +29,15 @@
         Transaction
     </h1>
     <div class="container">
-        <div class="flex justify-end mb-5">
+
+        <div class="flex justify-end mb-5 gap-5">
+            <div class="flex justify-end mb-5">
+                <button data-modal-target="crud-modal" data-modal-toggle="crud-modal"
+                    class="block text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+                    type="button">
+                    Print Transaction
+                </button>
+            </div>
             <div class="flex justify-end mb-5">
                 <a class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                     href="/transaction/create">Add New Transaction</a>
@@ -60,6 +69,25 @@
                 @endforeach
             </tbody>
         </table>
+
+        {{-- <form method="GET" action="/transaksi/pdf" class="mb-3">
+            <h1 class="text-4xl font-bold mb-5">
+                Print Transaction
+            </h1>
+            <div class="row">
+                <div class="col-md-3">
+                    <input type="date" name="start_date" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
+                        value="{{ request('start_date') }}">
+                </div>
+                <div class="col-md-3">
+                    <input type="date" name="end_date" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
+                        value="{{ request('end_date') }}">
+                </div>
+                <div class="col-md-3">
+                    <button type="submit" class="btn btn-success">Cetak PDF</button>
+                </div>
+            </div>
+        </form> --}}
     </div>
     <script>
         $(document).ready(function() {

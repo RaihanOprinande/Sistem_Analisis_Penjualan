@@ -7,6 +7,7 @@ use App\Models\Commission;
 use App\Models\Menu;
 use App\Models\Platfrom;
 use App\Models\Transaksi;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class TransaksiRepository implements TransaksiInterface
 {
@@ -71,5 +72,10 @@ class TransaksiRepository implements TransaksiInterface
     {
         $transaksi = Transaksi::whereDate('tanggal_transaksi', $tanggal_transaksi)->get();
         return $transaksi;
+    }
+
+    public function Pdf($request)
+    {
+
     }
 }

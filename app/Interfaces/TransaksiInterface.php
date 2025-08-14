@@ -9,5 +9,6 @@ interface TransaksiInterface
     public function getallplatfrom();
     public function store($request);
     public function detailTransaction($year_month);
+    public function Pdf($request);
 
 }
