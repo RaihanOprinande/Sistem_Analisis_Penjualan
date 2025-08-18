@@ -59,7 +59,7 @@ class TransaksiRepository implements TransaksiInterface
                 'menu_id' => $request->menu_id,
                 'harga' => $request->harga,
                 'jumlah_pesanan' => $request->jumlah_pesanan,
-                'laba_kotor' => ($request->harga * $request->jumlah_pesanan) - $komisi - $hpp,
+                'laba_kotor' => ($request->harga * $request->jumlah_pesanan) - $komisi - $hpp*$request->jumlah_pesanan,
             ]);
             return ['success' => true, 'message' => 'Platfrom has been added'];
         } catch (\Exception $e) {

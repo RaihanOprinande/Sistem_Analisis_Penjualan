@@ -87,6 +87,7 @@
             document.getElementById('edit-id').value = menu.id;
             document.getElementById('menu_name').value = menu.menu_name;
             document.getElementById('hpp').value = menu.hpp;
+            document.getElementById('target_laba').value = menu.target_laba;
             document.querySelector('#update-modal form').action = `/menu/${menu.id}`;
         }
 

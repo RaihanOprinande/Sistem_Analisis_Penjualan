@@ -10,6 +10,7 @@
 @endsection
 @section('content')
     <div class="dashboard">
+        <h1 class="text-4xl font-bold mt mb-5">This Month Summary</h1>
 
         <div class="cards flex gap-4  text-center mb-5">
 

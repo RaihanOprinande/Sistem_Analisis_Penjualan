@@ -78,7 +78,7 @@ class TransaksiController extends Controller
             ->get();
     } else {
         $transaksis = Transaksi::with('platfrom', 'menu')
-            ->orderBy('tanggal_transaksi', 'desc') 
+            ->orderBy('tanggal_transaksi', 'desc')
             ->get();
 
         $tanggal_mulai = Transaksi::min('tanggal_transaksi');

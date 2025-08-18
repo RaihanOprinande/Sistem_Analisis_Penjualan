@@ -73,6 +73,7 @@ class MenuRepository implements MenuInterface
             $validated = $request->validate([
             'menu_name' => 'required',
             'hpp' => 'required|numeric',
+            'target_laba' => 'required|numeric',
         ]);
         $menu = Menu::find($id);
         $menu->update($validated);
