@@ -22,7 +22,7 @@
             </div>
         @endif
     </div>
-    <h1 class="text-4xl font-bold">Sales Analysis</h1>
+    <h1 class="text-4xl font-bold">Sales Analysis {{ $tahun_ini }}</h1>
     <div class="container mt-5">
         {{-- <div class="radiobutton">
             <ul class="grid w-full md:grid-cols-12">
@@ -65,18 +65,18 @@
             <h1 class="text-2xl font-bold">Chart Insight</h1>
             <div class="bulan-tertinggi">
                 <p>
-                    Penjualan mencapai puncaknya pada bulan <b>{{ $HquantityFormatted }}</b>
-                    dengan jumlah pesanan sebanyak <b>{{ number_format($Hquantity->total_quantity) }}</b> unit.
-                    {{-- {{ $Hquantity }} --}}
+                    Omset mencapai puncaknya pada bulan <b>{{ $omset_bulan }}</b>
+                    dengan nilai <b>Rp. {{ number_format($omset->omset, '0', ',', '.') }}</b>
+
                 </p>
                 <p>
-                    Keuntungan (laba kotor) tertinggi terjadi pada bulan <b>{{ $HlabaFormatted }}</b>
-                    dengan nilai Rp <b>{{ number_format($Hlaba->total_laba, 2, ',', '.') }}</b>.
+                    Keuntungan (laba kotor) tertinggi terjadi pada bulan <b>{{ $laba_kotor_bulan }}</b>
+                    dengan nilai <b>Rp. {{ number_format($laba_kotor->laba_kotor, 0, ',', '.') }}</b>.
                 </p>
             </div>
         </div>
         <div class="table w-full">
-            <h1 class="text-2xl mb-5 mt-10 font-bold">Highest Month Units Sold Table </h1>
+            {{-- <h1 class="text-2xl mb-5 mt-10 font-bold">Highest Month Units Sold Table </h1>
             <table class=" table-auto w-full" id="order">
                 <thead>
                     <tr>
@@ -86,7 +86,6 @@
                         <th>Menu</th>
                         <th>Order Quantity</th>
                         <th>Gross Profit</th>
-                        {{-- <th>Action</th> --}}
                     </tr>
                 </thead>
                 <tbody>
@@ -102,7 +101,7 @@
                         </tr>
                     @endforeach
                 </tbody>
-            </table>
+            </table> --}}
             <h1 class="text-2xl mb-5 mt-10 font-bold">Highest Month Gross Profit Table </h1>
             <table class=" table-auto w-full" id="grossprofit">
                 <thead>
@@ -113,7 +112,6 @@
                         <th>Menu</th>
                         <th>Order Quantity</th>
                         <th>Gross Profit</th>
-                        {{-- <th>Action</th> --}}
                     </tr>
                 </thead>
                 <tbody>
@@ -144,23 +142,24 @@
             data: {
                 labels: @json($labels),
                 datasets: [{
-                        label: 'Units Sold',
-                        data: @json($total_pesanan),
-                        borderWidth: 2,
-                        borderColor: 'rgba(75, 192, 192, 1)',
-                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                        tension: 0.3,
-                        yAxisID: 'y1'
-                    },
-                    {
                         label: 'Gross Profit',
-                        data: @json($laba_kotor),
+                        data: @json($laba_kotor_grafik),
                         borderWidth: 2,
                         borderColor: 'rgba(255, 99, 132, 1)',
                         backgroundColor: 'rgba(255, 99, 132, 0.2)',
                         tension: 0.3,
+                        yAxisID: 'y1'
+                    },
+                    {
+                        label: 'Omset',
+                        data: @json($omset_grafik),
+                        borderWidth: 2,
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        tension: 0.3,
                         yAxisID: 'y2'
                     }
+
                 ]
             },
 
@@ -174,7 +173,7 @@
                         beginAtZero: true,
                         title: {
                             display: true,
-                            text: 'Units Sold' // Label sumbu Y1
+                            text: 'Omset' // Label sumbu Y1
                         }
                     },
                     y2: {

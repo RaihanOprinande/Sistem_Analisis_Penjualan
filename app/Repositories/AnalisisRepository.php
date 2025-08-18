@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Interfaces\AnalisisInterface;
 use App\Models\Menu;
 use App\Models\Transaksi;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class AnalisisRepository implements AnalisisInterface
@@ -16,17 +17,28 @@ class AnalisisRepository implements AnalisisInterface
     {
         //
     }
+    public function getomsetbulanan(){
+        $tahun_ini = Carbon::now()->year;
+            $data = Transaksi::selectRaw('MONTH(tanggal_transaksi) as bulan, SUM(harga * jumlah_pesanan) as omset')
+        ->whereYear('tanggal_transaksi', $tahun_ini)
+        ->groupBy('bulan')
+        ->orderBy('bulan')
+        ->get();
+
+        return $data;
+    }
 
     public function getpenjualandata(){
 
-        $transaksi = Transaksi::selectRaw('DATE_FORMAT(tanggal_transaksi, "%Y-%m") as bulan_tahun,
-                                         SUM(jumlah_pesanan) as total_pesanan,
-                                         SUM(laba_kotor) as total_laba')
-        ->groupBy('bulan_tahun')
-        ->orderBy('bulan_tahun','asc')
+            $bulan_ini = Carbon::now()->month;
+    $tahun_ini = Carbon::now()->year;
+    $data = Transaksi::selectRaw('MONTH(tanggal_transaksi) as bulan, SUM(jumlah_pesanan) as penjualan, SUM(laba_kotor) as laba_kotor, SUM(harga * jumlah_pesanan) as omset')
+        ->whereYear('tanggal_transaksi', $tahun_ini)
+        ->groupBy('bulan')
+        ->orderBy('bulan')
         ->get();
 
-        return $transaksi;
+        return $data;
     }
 
     public function getSaleshighestlaba()
