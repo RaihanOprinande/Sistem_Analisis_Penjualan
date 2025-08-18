@@ -20,6 +20,7 @@ class AnalisisController extends Controller
         $tahun_ini = now()->year;
         $data = $this->analisisRepository->getpenjualandata();
         $omset_bulanan = $this->analisisRepository->getomsetbulanan();
+        $tablesale = $this->analisisRepository->gettablesales();
 
             $namaBulan = [1=>'Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
             $labels = $data->pluck('bulan')->map(function($b) use ($namaBulan) {
@@ -37,26 +38,8 @@ class AnalisisController extends Controller
          $get_laba_kotor_bulan = $laba_kotor->bulan;
          $laba_kotor_bulan = $namaBulan[$get_laba_kotor_bulan];
 
-        // $Hlaba = $this->analisisRepository->getSaleshighestlaba();
-        // $Hquantity = $this->analisisRepository->getSaleshighestquantity();
-        // $tableorder = $this->analisisRepository->gettableorder();
-        $tablesale = $this->analisisRepository->gettablesales();
 
-        // $Bulan = [
-        //     '01' => 'Januari', '02' => 'Februari', '03' => 'Maret', '04' => 'April',
-        //     '05' => 'Mei', '06' => 'Juni', '07' => 'Juli', '08' => 'Agustus',
-        //     '09' => 'September', '10' => 'Oktober', '11' => 'November', '12' => 'Desember'
-        // ];
 
-        // $data_month_qty = $this->analisisRepository->getSaleshighestquantity();
-        // $data_month_qty = explode('-', $data_month_qty->bulan_tahun);
-        // $HquantityFormatted = $Bulan[$data_month_qty[1]] . ' ' . $data_month_qty[0];
-
-        // $data_month_sales = $this->analisisRepository->getSaleshighestlaba();
-        // $data_month_sales = explode('-', $data_month_sales->bulan_tahun);
-        // $HlabaFormatted = $Bulan[$data_month_sales[1]] . ' ' . $data_month_sales[0];
-        // dd($table);
-        // return view('analisis.sales', compact('total_pesanan', 'labels', 'laba_kotor', 'Hlaba', 'HquantityFormatted','Hquantity','HlabaFormatted', 'tableorder','tablesale'));
         // dd($omset_bulan);
         return view('analisis.sales', compact('labels','omset_grafik','laba_kotor_grafik','tahun_ini','omset','omset_bulan','tablesale','laba_kotor_bulan','laba_kotor'));
     }
