@@ -49,12 +49,13 @@ class AnalisisController extends Controller
         $data = $this->analisisRepository->getplatfromchart();
         $platfrom = $this->analisisRepository->getPlatfromhighestgross();
         $labels = $data->pluck('platfrom')->toArray();
-        $laba_kotor = $data->pluck('total_laba_kotor')->toArray();
+        $laba_kotor_grafik = $data->pluck('total_laba_kotor')->toArray();
+        $omset_grafik = $data->pluck('omset')->toArray();
 
         $pfuntung = $data->sortByDesc('total_laba_kotor')->first();
 
         // dd($platfrom);
-        return view('analisis.platfrom', compact('labels',  'laba_kotor','pfuntung','platfrom'));
+        return view('analisis.platfrom', compact('labels',  'laba_kotor_grafik','pfuntung','platfrom','omset_grafik'));
     }
 
     public function MenuChart(){
