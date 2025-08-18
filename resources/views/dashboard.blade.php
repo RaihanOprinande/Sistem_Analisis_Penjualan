@@ -70,8 +70,9 @@
             data: {
                 labels: @json($labels),
                 datasets: [{
-                    label: 'Total Transaction',
-                    data: @json($jumlah_pesanan_grafik),
+                    label: 'Omset',
+                    // omset: @json($omset_grafik),
+                    data: @json($omset_grafik),
                     labaKotor: @json($laba_kotor_grafik),
                     borderWidth: 2,
                     borderColor: 'rgba(75, 192, 192, 1)',
@@ -84,7 +85,8 @@
                     tooltip: {
                         callbacks: {
                             label: function(context) {
-                                const penjualan = context.parsed.y;
+                                const omset = context.parsed.y;
+                                // const penjualan = context.parsed.y;
                                 const labaKotor = context.dataset.labaKotor[context.dataIndex];
 
                                 function formatRupiah(angka) {
@@ -94,7 +96,8 @@
                                     });
                                 }
                                 return [
-                                    'Penjualan: ' + penjualan,
+                                    'Omset: ' + formatRupiah(omset),
+                                    // 'Penjualan: ' + penjualan,
                                     'Laba Kotor: ' + formatRupiah(labaKotor)
                                 ];
                             }
@@ -103,7 +106,11 @@
                 },
                 scales: {
                     y: {
-                        beginAtZero: false
+                        beginAtZero: false,
+                        title: {
+                            display: true,
+                            text: 'Omset (Rp)'
+                        }
                     }
                 }
             }

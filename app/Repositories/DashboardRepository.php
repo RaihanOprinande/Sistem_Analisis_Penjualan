@@ -22,7 +22,7 @@ class DashboardRepository implements DashboardInterface
     {
     $bulan_ini = Carbon::now()->month;
     $tahun_ini = Carbon::now()->year;
-    $data = Transaksi::selectRaw('MONTH(tanggal_transaksi) as bulan, SUM(jumlah_pesanan) as penjualan, SUM(laba_kotor) as laba_kotor')
+    $data = Transaksi::selectRaw('MONTH(tanggal_transaksi) as bulan, SUM(jumlah_pesanan) as penjualan, SUM(laba_kotor) as laba_kotor, SUM(harga * jumlah_pesanan) as omset')
         ->whereYear('tanggal_transaksi', $tahun_ini)
         ->groupBy('bulan')
         ->orderBy('bulan')
