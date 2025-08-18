@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Interfaces\DashboardInterface;
 use App\Models\Transaksi;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -9,19 +10,24 @@ use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
+
+    public $dashboardInterface;
+
+    public function __construct(DashboardInterface $dashboardInterface)
+    {
+        $this->dashboardInterface = $dashboardInterface;
+    }
     public function index()
     {
 
+    $data = $this->dashboardInterface->getdatachart();
+    $data2 = $this->dashboardInterface->getdata();
+    $omzet = $this->dashboardInterface->getomzet();
+    $get_platfrom = $this->dashboardInterface->getvaluableplatfrom();
+
     $bulan_ini = Carbon::now()->month;
     $tahun_ini = Carbon::now()->year;
-    $data = Transaksi::selectRaw('MONTH(tanggal_transaksi) as bulan, SUM(jumlah_pesanan) as penjualan, SUM(laba_kotor) as laba_kotor')
-        // ->whereMonth('tanggal_transaksi', $bulan_ini)
-        ->whereYear('tanggal_transaksi', $tahun_ini)
-        ->groupBy('bulan')
-        ->orderBy('bulan')
-        ->get();
 
-    $bulan = $data->pluck('bulan');
 
     // mengubah angka bulan ke nama bulan
     $namaBulan = [1=>'Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
@@ -29,46 +35,21 @@ class DashboardController extends Controller
         return $namaBulan[$b];
     });
 
-    $data_harga = Transaksi::whereMonth('tanggal_transaksi',$bulan_ini)
-                ->whereYear('tanggal_transaksi', $tahun_ini)
-                ->select('harga')
-                ->get();
+
+    $jumlah_pesanan = $data2->sum('jumlah_pesanan');
+    $harga = $data2->sum('harga');
+    $total_transaksi = $data2->count();
+    $platfrom = $get_platfrom->pluck('platfrom')->first();
 
 
-    $penjualans = $data->pluck('penjualan');
-    $laba_kotor = $data->pluck('laba_kotor');
-    $harga = $data->pluck('harga');
+    $jumlah_pesanan_grafik = $data->pluck('penjualan');
+    $laba_kotor_grafik = $data->pluck('penjualan');
+    $laba_kotor = $data2->pluck('laba_kotor');
+    $bulan = $data->pluck('bulan');
+    $sum_laba_kotor = $laba_kotor->sum();
+    $aov = $harga / $total_transaksi;
 
-    $getjumlah_pesanan = $data->sum('penjualan');
-    $jumlah_pesanan = $getjumlah_pesanan;
-
-    $getlaba_kotor = Transaksi::whereMonth('tanggal_transaksi', $bulan_ini)
-                    ->whereYear('tanggal_transaksi', $tahun_ini)
-                    ->sum('laba_kotor');
-    $Alaba_kotor = $getlaba_kotor;
-
-    $hitung_transaksi = Transaksi::whereMonth('tanggal_transaksi',$bulan_ini)
-    ->whereyear('tanggal_transaksi', $tahun_ini)
-    ->count();
-
-    $get_harga = $data_harga->pluck('harga');
-    $aov = $get_harga->sum() / $hitung_transaksi;
-    // dd($aov);
-
-            $getplatfrom = DB::table('transaksis')
-            ->select('platfroms.platfrom', DB::raw('SUM(transaksis.laba_kotor) as total_laba_kotor'))
-            ->join('platfroms', 'transaksis.platfrom_id', '=', 'platfroms.id')
-            ->whereMonth('transaksis.tanggal_transaksi', $bulan_ini)
-            ->whereYear('transaksis.tanggal_transaksi', $tahun_ini)
-            ->groupBy('platfroms.platfrom')
-            ->orderBy('total_laba_kotor', 'desc')
-            ->get();
-
-            $platfrom = $getplatfrom->first();
-
-            // dd($aov);
-
-    return view('dashboard', compact('labels', 'penjualans','laba_kotor','jumlah_pesanan', 'Alaba_kotor','aov','platfrom'));
+    return view('dashboard', compact('omzet','labels','jumlah_pesanan_grafik','laba_kotor_grafik','sum_laba_kotor', 'jumlah_pesanan','aov','platfrom'));
     }
 
 

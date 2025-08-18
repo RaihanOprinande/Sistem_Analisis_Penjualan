@@ -15,32 +15,40 @@
         <div class="cards flex gap-4  text-center mb-5">
 
             <a href="#"
-                class="block  w-70 p-6 bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+                class="block  w-55 h-30 p-5 bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+
+                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Omzet</h5>
+                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Rp.
+                    {{ number_format($omzet, '0', ',', '.') }}</h5>
+            </a>
+            {{-- {{ $data2 }} --}}
+            <a href="#"
+                class="block  w-55 h-30 p-6 bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
 
                 <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Gross Profit</h5>
                 <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Rp.
-                    {{ number_format($Alaba_kotor, '0', ',', '.') }}</h5>
+                    {{ number_format($sum_laba_kotor, '0', ',', '.') }}</h5>
             </a>
             <a href="#"
-                class="block  w-70 p-6 bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+                class="block  w-55 h-30 p-6 bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
 
                 <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Unit Sold</h5>
                 <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ $jumlah_pesanan }}</h5>
             </a>
             <a href="#"
-                class="block  w-70 p-6 bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+                class="block  w-55 h-30 p-1 bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
 
                 <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Average Order Value</h5>
-                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Rp.
-                    {{ number_format($aov, '0', ',', '.') }}</h5>
+                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                    Rp.{{ number_format($aov, '0', ',', '.') }}</h5>
             </a>
             <a href="#"
-                class="block  w-70 p-6 bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+                class="block  w-55 h-30 p-1 bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
 
                 <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Most Profitable Platfrom
                 </h5>
-                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                    {{ $platfrom->platfrom }}</h5>
+                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ $platfrom }}
+                </h5>
             </a>
 
         </div>
@@ -63,8 +71,8 @@
                 labels: @json($labels),
                 datasets: [{
                     label: 'Total Transaction',
-                    data: @json($penjualans),
-                    labaKotor: @json($laba_kotor),
+                    data: @json($jumlah_pesanan_grafik),
+                    labaKotor: @json($laba_kotor_grafik),
                     borderWidth: 2,
                     borderColor: 'rgba(75, 192, 192, 1)',
                     backgroundColor: 'rgba(75, 192, 192, 0.2)',
