@@ -57,7 +57,7 @@
                 @foreach ($transaksi as $transaction)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
-                        <td>{{ $transaction->tanggal_transaksi }}</td>
+                        <td>{{ $transaction->tanggal_transaksi_formatted }}</td>
                         {{-- <td>{{ $transaction->platfrom->platfrom }}</td> --}}
                         {{-- <td>{{ $transaction->menu->menu_name }}</td> --}}
                         <td>{{ $transaction->sum_jumlah_pesanan }}</td>

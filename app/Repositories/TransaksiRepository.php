@@ -8,6 +8,7 @@ use App\Models\Menu;
 use App\Models\Platfrom;
 use App\Models\Transaksi;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
 
 class TransaksiRepository implements TransaksiInterface
 {
@@ -21,13 +22,20 @@ class TransaksiRepository implements TransaksiInterface
 
     public function getallTransaksi()
     {
-    $transaksi = Transaksi::selectRaw('tanggal_transaksi, SUM(jumlah_pesanan) as sum_jumlah_pesanan, SUM(laba_kotor) as sum_laba_kotor')
-        ->with('platfrom','menu','komisi')
-        ->groupBy('tanggal_transaksi')
-        ->orderBy('tanggal_transaksi', 'desc')
-        ->get();
+$transaksi = Transaksi::selectRaw('tanggal_transaksi, SUM(jumlah_pesanan) as sum_jumlah_pesanan, SUM(laba_kotor) as sum_laba_kotor')
+    ->with('platfrom', 'menu', 'komisi')
+    ->groupBy('tanggal_transaksi')
+    ->orderBy('tanggal_transaksi', 'desc')
+    ->get();
 
-    return $transaksi;
+// Lakukan perulangan untuk memformat tanggal
+$transaksi = $transaksi->map(function ($item) {
+    // Gunakan Carbon untuk memformat tanggal_transaksi
+    $item->tanggal_transaksi_formatted = Carbon::parse($item->tanggal_transaksi)->translatedFormat('j F Y');
+    return $item;
+});
+
+return $transaksi;
     }
     public function getallmenu()
     {
@@ -61,6 +69,7 @@ class TransaksiRepository implements TransaksiInterface
                 'komisi_id' => $findKomisi->id,
                 'harga' => $request->harga,
                 'jumlah_pesanan' => $request->jumlah_pesanan,
+                'omset' => $request->jumlah_pesanan * $request->jumlah_pesanan,
                 'laba_kotor' => ($request->harga * $request->jumlah_pesanan) - $komisi - $hpp*$request->jumlah_pesanan,
             ]);
             return ['success' => true, 'message' => 'Platfrom has been added'];

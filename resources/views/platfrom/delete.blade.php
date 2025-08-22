@@ -8,7 +8,7 @@
             <div
                 class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-200">
                 <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-                    Delete Menu
+                    Delete Platfrom
                 </h3>
                 <button type="button" onclick="closeDelete()"
                     class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
@@ -27,7 +27,7 @@
                 @csrf
                 <input type="hidden" id="delete-id" name="id">
                 <p class="text-md text-gray-500 dark:text-white">
-                    Are you sure you want to delete this component?
+                    Are you sure you want to delete this Platfrom?
                 </p>
                 <div class="flex justify-end mt-5">
                     <button type="button"

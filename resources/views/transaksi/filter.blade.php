@@ -7,7 +7,7 @@
             <div
                 class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-200">
                 <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-                    Add New Menu
+                    Filter Transaction
                 </h3>
                 <button type="button"
                     class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
@@ -32,8 +32,8 @@
                             placeholder="" required="" value="{{ request('start_date') }}">
                     </div>
                     <div class="col-span-2">
-                        <label for="end_date"
-                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">End Date</label>
+                        <label for="end_date" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">End
+                            Date</label>
                         <input type="date" name="end_date" id="end_date"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                             placeholder="" required="">
@@ -50,7 +50,7 @@
                             d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
                             clip-rule="evenodd"></path>
                     </svg>
-                    Add new menu
+                    Filter
                 </button>
             </form>
         </div>

@@ -13,6 +13,7 @@ class Transaksi extends Model
         'menu_id',
         'harga',
         'jumlah_pesanan',
+        'omset',
         'laba_kotor'
     ];
 
