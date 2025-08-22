@@ -133,8 +133,8 @@ class AnalisisRepository implements AnalisisInterface
     {
         $tahun_ini = Carbon::now()->year;
         $platfrom = DB::table('transaksis')
+        // ->whereYear('transaksis.tanggal_transaksi', $tahun_ini)
             ->select('platfroms.platfrom', DB::raw('SUM(transaksis.laba_kotor) as total_laba_kotor, SUM(transaksis.harga * transaksis.jumlah_pesanan) as omset'))
-            ->whereYear('transaksis.tanggal_transaksi', $tahun_ini)
             ->join('platfroms', 'transaksis.platfrom_id', '=', 'platfroms.id')
             ->groupBy('platfroms.platfrom')
             ->orderBy('total_laba_kotor', 'desc')

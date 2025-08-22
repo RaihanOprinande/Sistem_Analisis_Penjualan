@@ -60,8 +60,8 @@
                         <td>{{ $transaction->tanggal_transaksi }}</td>
                         {{-- <td>{{ $transaction->platfrom->platfrom }}</td> --}}
                         {{-- <td>{{ $transaction->menu->menu_name }}</td> --}}
-                        <td>{{ $transaction->jumlah_pesanan }}</td>
-                        <td>{{ 'Rp.' . number_format($transaction->laba_kotor, 0, ',', '.') }}</td>
+                        <td>{{ $transaction->sum_jumlah_pesanan }}</td>
+                        <td>{{ 'Rp.' . number_format($transaction->sum_laba_kotor, 0, ',', '.') }}</td>
                         <td> <a class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                                 href="/transaction/detail/{{ $transaction->tanggal_transaksi }}">Detail</a>
                         </td>

@@ -24,7 +24,18 @@ class PriceController extends Controller
         $menu = $this->priceinterface->getallmenu();
         $platfrom = $this->priceinterface->getallplatfrom();
         $komisi = $this->priceinterface->getallkomisi();
-        return view('price.index',compact('platfrom', 'menu','price', 'komisi'));
+
+        foreach($menu as $m) {
+            foreach ($platfrom as $pf) {
+                $harga = $price->where('menu_id', $m->id)->where('platfrom_id', $pf->id)->first();
+                $get_komisi = $komisi
+                ->where('platfrom_id', $pf->id)
+                ->sortByDesc('created_at')
+                ->first();
+            }
+        }
+        // dd($get_komisi);
+        return view('price.index',compact('platfrom', 'menu','price', 'komisi','harga','get_komisi'));
 
     }
 

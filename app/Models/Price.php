@@ -11,7 +11,8 @@ class Price extends Model
         'platfrom_id',
         'menu_id',
         'komisi_id',
-        'harga'
+        'harga',
+        'laba'
      ];
 
     public function menu()

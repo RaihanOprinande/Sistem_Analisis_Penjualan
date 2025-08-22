@@ -35,9 +35,12 @@
                         <th>No</th>
                         <th>Tanggal</th>
                         <th>Platfrom</th>
+                        <th>Komisi</th>
                         <th>Menu</th>
+                        <th>Hpp</th>
                         <th>Jumlah Pesanan</th>
                         <th>Harga Jual</th>
+                        <th>Omset</th>
                         <th>Laba Kotor</th>
                     </tr>
                 </thead>
@@ -47,10 +50,12 @@
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $item->tanggal_transaksi }}</td>
                             <td>{{ $item->platfrom->platfrom }}</td>
-                            {{-- <td>{{ $item->platfrom->komisi->komisi }}</td> --}}
+                            <td>{{ $item->komisi->komisi }} %</td>
                             <td>{{ $item->menu->menu_name }}</td>
+                            <td>{{ $item->menu->hpp }}</td>
                             <td>{{ $item->jumlah_pesanan }}</td>
                             <td>{{ 'Rp. ' . number_format($item->harga, 0, ',', '.') }}</td>
+                            <td>{{ 'Rp. ' . number_format($item->harga * $item->jumlah_pesanan, 0, ',', '.') }}</td>
                             <td>{{ 'Rp.' . number_format($item->laba_kotor, 0, ',', '.') }}</td>
                         </tr>
                     @endforeach

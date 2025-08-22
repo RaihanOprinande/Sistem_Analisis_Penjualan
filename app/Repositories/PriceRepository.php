@@ -23,6 +23,7 @@ class PriceRepository implements PriceInterface
     {
 
         $price = Price::orderby('created_at', 'desc')->get();
+        
 
         return $price;
     }

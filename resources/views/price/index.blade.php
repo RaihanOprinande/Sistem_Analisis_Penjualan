@@ -24,10 +24,6 @@
     </div>
     <h1 class="text-4xl font-bold mb-5">Price Recomendation</h1>
     <div class="container">
-        {{-- <div class="flex justify-end mb-5">
-            <a class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                href="/create_price">Add New Price</a>
-        </div> --}}
         <div class="tobul">
             <table id="priceTable" class="display">
                 <thead>
@@ -58,24 +54,20 @@
                                 @endphp
                                 <td>
                                     @if ($harga)
-                                        {{-- <a href="/update_price/{{ $harga->id }}"> --}}
-                                        {{ 'Rp. ' . number_format($harga->harga, 0, ',', '.') }}
-                                        {{-- </a> --}}
-                                    @else
-                                        -
-                                    @endif
-                                </td>
-                                <td>
-                                    @if ($harga)
-                                        {{-- Laba = target_laba (menu) * harga / 100 --}}
-                                        {{-- {{ 'Rp. ' . number_format(($m->target_laba * $harga->harga) / 100, 0, ',', '.') }} --}}
-                                        {{ 'RP. ' . number_format($harga->harga * (1 - $get_komisi->komisi / 100) - $m->hpp, 0, ',', '.') }}
-                                    @else
-                                        -
-                                    @endif
-                                </td>
-                            @endforeach
-                        </tr>
+                                    {{ 'Rp. ' . number_format($harga->harga, 0, ',', '.') }}
+                                @else
+                                    -
+                            @endif
+                            </td>
+                            <td>
+                                @if ($harga)
+                                    {{ 'RP. ' . number_format($harga->laba, 0, ',', '.') }}
+                                @else
+                                    -
+                                @endif
+                            </td>
+                    @endforeach
+                    </tr>
                     @endforeach
                 </tbody>
             </table>

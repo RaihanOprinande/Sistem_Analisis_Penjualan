@@ -54,7 +54,7 @@ class AnalisisController extends Controller
 
         $pfuntung = $data->sortByDesc('total_laba_kotor')->first();
 
-        // dd($platfrom);
+        // dd($data);
         return view('analisis.platfrom', compact('labels',  'laba_kotor_grafik','pfuntung','platfrom','omset_grafik'));
     }
 
