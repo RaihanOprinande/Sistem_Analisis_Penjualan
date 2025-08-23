@@ -43,6 +43,22 @@
                     href="/transaction/create">Add New Transaction</a>
             </div>
         </div>
+        <div class="filter ">
+            <form action="/transaction" class="flex mb-5">
+                <select class="js-example-basic-single w-full" name="filter_bulan" id="filter_bulan">
+                    <option value="{{ null }}">All Month</option>
+                    @foreach ($month as $item)
+                        <option value="{{ $item['value'] }}">{{ $item['label'] }}</option>
+                    @endforeach
+                </select>
+                <button type="submit"
+                    class="text-white bg-blue-500 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm ms-5 w-46 px-5 py-2.5 text-center dark:bg-blue-900 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    <p class="">
+                        Filter
+                    </p>
+                </button>
+            </form>
+        </div>
         <table class=" table-auto w-full" id="transaksitable">
             <thead>
                 <tr>
@@ -89,9 +105,34 @@
             </div>
         </form> --}}
     </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function() {
             $('#transaksitable').DataTable();
+            $('.js-example-basic-single').select2();
+        });
+    </script>
+    <script>
+        $('#filter_bulan').change(function() {
+            let bulan = $(this).val();
+
+            $.ajax({
+                url: '/transaction', // Ganti dengan URL API atau route yang sesuai
+                type: 'GET',
+                data: {
+                    filter_bulan: bulan
+                },
+                success: function(response) {
+                    // Di sini Anda memperbarui tabel dengan data yang diterima
+                    console.log(response); // Cek data di konsol
+
+                    // Contoh memperbarui tabel:
+                    // $('#tabel-transaksi tbody').empty();
+                    // response.forEach(function(transaksi) {
+                    //     $('#tabel-transaksi tbody').append('<tr>...</tr>');
+                    // });
+                }
+            });
         });
     </script>
 @endsection

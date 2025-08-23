@@ -20,23 +20,49 @@ class TransaksiRepository implements TransaksiInterface
         //
     }
 
-    public function getallTransaksi()
-    {
-$transaksi = Transaksi::selectRaw('tanggal_transaksi, SUM(jumlah_pesanan) as sum_jumlah_pesanan, SUM(laba_kotor) as sum_laba_kotor')
-    ->with('platfrom', 'menu', 'komisi')
-    ->groupBy('tanggal_transaksi')
-    ->orderBy('tanggal_transaksi', 'desc')
+    public function month(){
+        $months = Transaksi::selectRaw('MONTH(tanggal_transaksi) as bulan')
+    ->selectRaw('MIN(tanggal_transaksi) as tanggal')
+    ->groupBy('bulan')
+    ->orderBy('bulan', 'desc')
     ->get();
 
-// Lakukan perulangan untuk memformat tanggal
-$transaksi = $transaksi->map(function ($item) {
-    // Gunakan Carbon untuk memformat tanggal_transaksi
-    $item->tanggal_transaksi_formatted = Carbon::parse($item->tanggal_transaksi)->translatedFormat('j F Y');
-    return $item;
-});
+    $months = $months->reverse()->values();
 
-return $transaksi;
+// Format nama bulan untuk tampilan dropdown
+    $formattedMonths = $months->map(function ($item) {
+        return [
+            'value' => $item->bulan,
+            'label' => Carbon::parse($item->tanggal)->translatedFormat('F')
+        ];
+    });
+    return $formattedMonths;
     }
+
+    public function getallTransaksi($request)
+    {
+    // Inisialisasi query builder
+    $query = Transaksi::selectRaw('tanggal_transaksi, SUM(jumlah_pesanan) as sum_jumlah_pesanan, SUM(laba_kotor) as sum_laba_kotor')
+        ->groupBy('tanggal_transaksi')
+        ->orderBy('tanggal_transaksi', 'desc');
+
+    // Terapkan filter hanya jika ada input 'filter_bulan'
+    $query->when($request->filled('filter_bulan'), function ($q) use ($request) {
+        $q->whereMonth('tanggal_transaksi', $request->filter_bulan);
+    });
+
+    // Jalankan query dan ambil hasilnya
+    $transaksi = $query->get();
+
+    // Lakukan pemformatan setelah query dijalankan
+    $transaksi = $transaksi->map(function ($item) {
+        $item->tanggal_transaksi_formatted = Carbon::parse($item->tanggal_transaksi)->translatedFormat('j F Y');
+        return $item;
+    });
+
+    return $transaksi;
+    }
+
     public function getallmenu()
     {
         $menu = Menu::all();

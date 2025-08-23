@@ -28,7 +28,7 @@ class MenuRepository implements MenuInterface
 
     public function storedata($request)
     {
-try {
+    try {
     DB::beginTransaction();
     $validated = $request->validate([
         'menu_name' => 'required',
@@ -81,37 +81,37 @@ try {
         try {
             DB::beginTransaction();
             $validated = $request->validate([
-            'menu_name' => 'required',
-            'hpp' => 'required|numeric',
-            'target_laba' => 'required|numeric',
-        ]);
+                'menu_name' => 'required',
+                'hpp' => 'required|numeric',
+                'target_laba' => 'required|numeric',
+            ]);
         $menu = Menu::find($id);
         $menu->update($validated);
 
         $platfroms = Platfrom::all();
 
-                foreach($platfroms as $pf){
-            $commission = Commission::where('platfrom_id', $pf->id)->orderBy('tanggal_berlaku', 'desc')->first();
+            foreach($platfroms as $pf){
+                $commission = Commission::where('platfrom_id', $pf->id)->orderBy('tanggal_berlaku', 'desc')->first();
 
-            $hpp = $menu->hpp;
-            $laba = $menu->target_laba;
-            $komisi = $commission ? $commission->komisi : 0;
+                $hpp = $menu->hpp;
+                $laba = $menu->target_laba;
+                $komisi = $commission ? $commission->komisi : 0;
 
-            $harga = ($hpp + ($hpp * ($laba / 100))) / (1 - ($komisi / 100));
+                $harga = ($hpp + ($hpp * ($laba / 100))) / (1 - ($komisi / 100));
 
-            $harga_final = round($harga / 500) * 500;
+                $harga_final = round($harga / 500) * 500;
 
-            $laba = $harga_final - (1 - $komisi / 100) - $hpp;
+                $laba = $harga_final - (1 - $komisi / 100) - $hpp;
 
-            $laba_final = ceil($laba);
+                $laba_final = ceil($laba);
 
-             Price::create([
-                    'platfrom_id' => $pf->id,
-                    'menu_id' => $menu->id,
-                    'komisi_id' => $commission ? $commission->id : null,
-                    'harga' => $harga_final,
-                    'laba' => $laba_final,
-                ]);
+                Price::create([
+                        'platfrom_id' => $pf->id,
+                        'menu_id' => $menu->id,
+                        'komisi_id' => $commission ? $commission->id : null,
+                        'harga' => $harga_final,
+                        'laba' => $laba_final,
+                    ]);
             }
             DB::commit();
             // dd($laba_final, $harga,$harga_final);

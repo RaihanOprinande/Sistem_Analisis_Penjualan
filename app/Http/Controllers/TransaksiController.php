@@ -18,11 +18,12 @@ class TransaksiController extends Controller
         $this->transaksiInterface = $transaksiInterface;
 
     }
-    public function index()
+    public function index(Request $request)
     {
-        $transaksi = $this->transaksiInterface->getallTransaksi();
+        $transaksi = $this->transaksiInterface->getallTransaksi($request);
+        $month = $this->transaksiInterface->month();
 
-        return view('transaksi.index', compact('transaksi'));
+        return view('transaksi.index', compact('transaksi','month'));
     }
 
     public function create()
