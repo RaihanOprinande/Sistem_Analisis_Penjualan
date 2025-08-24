@@ -2,6 +2,7 @@
 <html>
 
 <head>
+    @vite('resources/css/app.css')
     <title>Laporan Transaksi</title>
     <style>
         body {
@@ -29,12 +30,13 @@
 
 <body>
     <h1 style="text-align: center;">Laporan Transaksi</h1>
-    <p>Periode: {{ date('d-m-Y', strtotime($tanggal_mulai)) }} s/d {{ date('d-m-Y', strtotime($tanggal_akhir)) }}</p>
+    <p>Periode: {{ $tanggal_mulai_formatted }} s/d {{ $tanggal_akhir_formatted }}</p>
     @if ($ringkasanBulanIni->total_laba_kotor)
         <div style="margin-bottom: 20px;">
             <p><b>Ringkasan Bulan Ini:</b></p>
             <ul>
-                <li>Total Laba Kotor: Rp {{ number_format($ringkasanBulanIni->total_laba_kotor, 2, ',', '.') }}</li>
+                <li>Total Laba/Rugi Kotor: Rp {{ number_format($ringkasanBulanIni->total_laba_kotor, 2, ',', '.') }}
+                </li>
                 <li>Total Penjualan: {{ number_format($ringkasanBulanIni->total_penjualan, 0, ',', '.') }} unit</li>
             </ul>
         </div>
@@ -48,7 +50,7 @@
                     <tr>
                         <th>Platform</th>
                         <th>Total Penjualan</th>
-                        <th>Total Laba Kotor</th>
+                        <th>Total Laba/Rugi Kotor</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -66,27 +68,34 @@
     <table>
         <thead>
             <tr>
-                <th>Tanggal</th>
-                <th>Platform</th>
+                <th>Tanggal_penjualan</th>
+                <th>Platfrom</th>
+                <th>Komisi</th>
                 <th>Menu</th>
-                <th>Jumlah Pesanan</th>
-                <th>Harga</th>
+                <th>Hpp</th>
+                <th class="w-40">Jumlah</th>
+                <th>Harga Jual</th>
+                <th>Omset</th>
                 <th>Laba Kotor</th>
             </tr>
         </thead>
         <tbody>
-            @foreach ($transaksis as $transaksi)
+            @foreach ($transaksis as $item)
                 <tr>
-                    <td>{{ $transaksi->tanggal_transaksi }}</td>
-                    <td>{{ $transaksi->platfrom->platfrom }}</td>
-                    <td>{{ $transaksi->menu->menu_name }}</td>
-                    <td>{{ $transaksi->jumlah_pesanan }}</td>
-                    <td>Rp {{ number_format($transaksi->harga, 3, ',', '.') }}</td>
-                    <td>Rp {{ number_format($transaksi->laba_kotor, 3, ',', '.') }}</td>
+                    <td class="whitespsace-nowrap">{{ $item->tanggal_transaksi }}</td>
+                    <td>{{ $item->platfrom->platfrom }}</td>
+                    <td>{{ $item->komisi->komisi }} %</td>
+                    <td>{{ $item->menu->menu_name }}</td>
+                    <td>{{ 'Rp.' . number_format($item->menu->hpp, 0, ',', '.') }}</td>
+                    <td>{{ $item->jumlah_pesanan }}</td>
+                    <td>{{ 'Rp. ' . number_format($item->harga, 0, ',', '.') }}</td>
+                    <td>{{ 'Rp. ' . number_format($item->harga * $item->jumlah_pesanan, 0, ',', '.') }}</td>
+                    <td>{{ 'Rp.' . number_format($item->laba_kotor, 0, ',', '.') }}</td>
                 </tr>
             @endforeach
         </tbody>
     </table>
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
 </body>
 
 </html>

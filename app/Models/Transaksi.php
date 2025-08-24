@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Transaksi extends Model
 {
+    use HasFactory;
     protected $fillable = [
         'tanggal_transaksi',
         'platfrom_id',
@@ -14,7 +16,8 @@ class Transaksi extends Model
         'harga',
         'jumlah_pesanan',
         'omset',
-        'laba_kotor'
+        'laba_kotor',
+        'status'
     ];
 
     public function platfrom()

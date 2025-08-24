@@ -74,8 +74,6 @@
                     <tr>
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $transaction->tanggal_transaksi_formatted }}</td>
-                        {{-- <td>{{ $transaction->platfrom->platfrom }}</td> --}}
-                        {{-- <td>{{ $transaction->menu->menu_name }}</td> --}}
                         <td>{{ $transaction->sum_jumlah_pesanan }}</td>
                         <td>{{ 'Rp.' . number_format($transaction->sum_laba_kotor, 0, ',', '.') }}</td>
                         <td> <a class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
@@ -86,24 +84,6 @@
             </tbody>
         </table>
 
-        {{-- <form method="GET" action="/transaksi/pdf" class="mb-3">
-            <h1 class="text-4xl font-bold mb-5">
-                Print Transaction
-            </h1>
-            <div class="row">
-                <div class="col-md-3">
-                    <input type="date" name="start_date" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
-                        value="{{ request('start_date') }}">
-                </div>
-                <div class="col-md-3">
-                    <input type="date" name="end_date" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
-                        value="{{ request('end_date') }}">
-                </div>
-                <div class="col-md-3">
-                    <button type="submit" class="btn btn-success">Cetak PDF</button>
-                </div>
-            </div>
-        </form> --}}
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
@@ -117,20 +97,14 @@
             let bulan = $(this).val();
 
             $.ajax({
-                url: '/transaction', // Ganti dengan URL API atau route yang sesuai
+                url: '/transaction',
                 type: 'GET',
                 data: {
                     filter_bulan: bulan
                 },
                 success: function(response) {
-                    // Di sini Anda memperbarui tabel dengan data yang diterima
-                    console.log(response); // Cek data di konsol
 
-                    // Contoh memperbarui tabel:
-                    // $('#tabel-transaksi tbody').empty();
-                    // response.forEach(function(transaksi) {
-                    //     $('#tabel-transaksi tbody').append('<tr>...</tr>');
-                    // });
+                    console.log(response);
                 }
             });
         });

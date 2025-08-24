@@ -111,8 +111,52 @@ class TransaksiRepository implements TransaksiInterface
         return $transaksi;
     }
 
-    public function Pdf($request)
+    public function cetakpdf($request)
     {
+        $transaksis = Transaksi::whereBetween('tanggal_transaksi', [$request->start_date, $request->end_date])
+            ->with('platfrom', 'menu')
+            ->orderBy('tanggal_transaksi', 'asc')
+            ->get();
 
+            $transaksis = $transaksis->map(function ($item) {
+                $item->tanggal_transaksi_formatted = Carbon::parse($item->tanggal_transaksi)->translatedFormat('j F Y');
+                return $item;
+            });
+        return $transaksis;
+    }
+
+    public function ringkasanbulan($request){
+        $ringkasanBulanIni = Transaksi::selectRaw('SUM(laba_kotor) as total_laba_kotor, SUM(jumlah_pesanan) as total_penjualan')
+            ->whereBetween('tanggal_transaksi', [$request->start_date, $request->end_date])
+            ->first();
+
+            return $ringkasanBulanIni;
+    }
+
+    public function ringkasanplatfrom($request){
+        $ringkasanPerPlatform = Transaksi::join('platfroms', 'transaksis.platfrom_id', '=', 'platfroms.id')
+            ->selectRaw('platfroms.platfrom as platfrom_name, SUM(transaksis.jumlah_pesanan) as total_penjualan, SUM(transaksis.laba_kotor) as total_laba_kotor')
+            ->whereBetween('tanggal_transaksi', [$request->start_date, $request->end_date])
+            ->groupBy('platfroms.platfrom')
+            ->orderByDesc('total_laba_kotor')
+            ->get();
+
+            return $ringkasanPerPlatform;
+        }
+
+        public function update($request, $id){
+            try {
+                $validated = $request->validate([
+                    'status' => 'required'
+                ]);
+                $transaksi = Transaksi::find($id);
+                $transaksi->update($validated);
+
+                return ['success' => true, 'message' => 'Status has been change'];
+            } catch (\Exception $e) {
+
+                return ['success' => false, 'message' => 'Failed to change status : ' . $e->getMessage()];
+
+            }
     }
 }

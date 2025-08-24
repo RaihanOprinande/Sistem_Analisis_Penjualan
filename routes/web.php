@@ -15,6 +15,8 @@ Route::get('/', function () {
     return view('login');
 });
 
+Route::put('/transactions/{transactionId}/status', [TransaksiController::class, 'updatestatus']);
+
 Route::get('/dashboard',[DashboardController::class,'index']);
 Route::get('/register',[RegisterController::class,'index']);
 Route::get('/login',[LoginController::class,'index']);
@@ -47,4 +49,6 @@ Route::post('/logout',[LoginController::class,'logout']);
 Route::post('/price/platfrom/store',[PlatfromController::class,'store']);
 Route::post('/price/store',[PriceController::class,'store']);
 Route::post('/transaction/store',[TransaksiController::class,'store']);
+
+
 

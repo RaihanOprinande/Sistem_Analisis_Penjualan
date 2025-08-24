@@ -7,6 +7,7 @@ use App\Models\Menu;
 use App\Models\Platfrom;
 use App\Models\Transaksi;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class TransaksiController extends Controller
@@ -51,43 +52,32 @@ class TransaksiController extends Controller
         return view('transaksi.detail',compact('tanggal_transaksi'));
     }
 
-        public function Pdf(Request $request)
-    {
-                // Ambil data transaksi dari database
-    $tanggal_mulai = null;
-    $tanggal_akhir = null;
-    $transaksis = collect(); // Inisialisasi collection kosong
 
-    if ($request->filled('start_date') && $request->filled('end_date')) {
-        $transaksis = Transaksi::whereBetween('tanggal_transaksi', [$request->start_date, $request->end_date])
-            ->with('platfrom', 'menu')
-            ->orderBy('tanggal_transaksi', 'asc')
-            ->get();
-
-                    $ringkasanBulanIni = Transaksi::selectRaw('SUM(laba_kotor) as total_laba_kotor, SUM(jumlah_pesanan) as total_penjualan')
-            ->whereBetween('tanggal_transaksi', [$request->start_date, $request->end_date])
-            ->first();
-
+    public function Pdf(Request $request){
         $tanggal_mulai = $request->start_date;
+
+
         $tanggal_akhir = $request->end_date;
 
-            $ringkasanPerPlatform = Transaksi::join('platfroms', 'transaksis.platfrom_id', '=', 'platfroms.id')
-            ->selectRaw('platfroms.platfrom as platfrom_name, SUM(transaksis.jumlah_pesanan) as total_penjualan, SUM(transaksis.laba_kotor) as total_laba_kotor')
-            ->whereBetween('tanggal_transaksi', [$request->start_date, $request->end_date])
-            ->groupBy('platfroms.platfrom')
-            ->orderByDesc('total_laba_kotor')
-            ->get();
-    } else {
-        $transaksis = Transaksi::with('platfrom', 'menu')
-            ->orderBy('tanggal_transaksi', 'desc')
-            ->get();
+        $tanggal_mulai_formatted = Carbon::parse($tanggal_mulai)->translatedFormat('j F Y');
+        $tanggal_akhir_formatted = Carbon::parse($tanggal_akhir)->translatedFormat('j F Y');
 
-        $tanggal_mulai = Transaksi::min('tanggal_transaksi');
-        $tanggal_akhir = Transaksi::max('tanggal_transaksi');
+        $transaksis = $this->transaksiInterface->cetakpdf($request);
+        $ringkasanPerPlatform = $this->transaksiInterface->ringkasanplatfrom($request);
+        $ringkasanBulanIni = $this->transaksiInterface->ringkasanbulan($request);
+
+        $pdf = Pdf::loadView('transaksi.pdf', compact('transaksis', 'tanggal_mulai_formatted', 'tanggal_akhir_formatted','ringkasanPerPlatform','ringkasanBulanIni'));
+        return $pdf->stream('laporan-transaksi-' . date('Y-m-d') . '.pdf');
     }
 
-    $pdf = Pdf::loadView('transaksi.pdf', compact('transaksis', 'tanggal_mulai', 'tanggal_akhir','ringkasanPerPlatform','ringkasanBulanIni'));
+    public function updatestatus(Request $request , string $id){
+        $result = $this->transaksiInterface->update($request,$id);
 
-    return $pdf->stream('laporan-transaksi-' . date('Y-m-d') . '.pdf');
+        if ($result['success']) {
+            return response()->json(['message' => $result['message']], 200);
+        } else {
+            return response()->json(['message' => $result['message']], 500);
+        }
+
     }
 }
