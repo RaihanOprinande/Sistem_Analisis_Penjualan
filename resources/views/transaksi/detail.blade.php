@@ -39,7 +39,7 @@
                         <th>Komisi</th>
                         <th>Menu</th>
                         <th>Hpp</th>
-                        <th>Jumlah Pesanan</th>
+                        <th class="w-4">Jumlah Pesanan</th>
                         <th>Harga Jual</th>
                         <th>Omset</th>
                         <th>Laba Kotor</th>
@@ -54,11 +54,11 @@
                             <td>{{ $item->platfrom->platfrom }}</td>
                             <td>{{ $item->komisi->komisi }} %</td>
                             <td>{{ $item->menu->menu_name }}</td>
-                            <td>{{ $item->menu->hpp }}</td>
-                            <td>{{ $item->jumlah_pesanan }}</td>
+                            <td>{{ 'Rp. ' . number_format($item->menu->hpp, 0, ',', '.') }}</td>
+                            <td class="w-5">{{ $item->jumlah_pesanan }}</td>
                             <td>{{ 'Rp. ' . number_format($item->harga, 0, ',', '.') }}</td>
                             <td>{{ 'Rp. ' . number_format($item->harga * $item->jumlah_pesanan, 0, ',', '.') }}</td>
-                            <td>{{ 'Rp.' . number_format($item->laba_kotor, 0, ',', '.') }}</td>
+                            <td>{{ 'Rp. ' . number_format($item->laba_kotor, 0, ',', '.') }}</td>
                             <td>
                                 {{-- Ubah ID agar unik --}}
                                 @switch($item->status)

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\repositories;
+namespace App\Repositories;
 
 use App\Interfaces\PlatfromInterface;
 use App\Models\Commission;

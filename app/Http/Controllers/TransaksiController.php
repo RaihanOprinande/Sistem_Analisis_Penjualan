@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Imports\TransaksiImport;
 use App\Interfaces\TransaksiInterface;
 use App\Models\Menu;
 use App\Models\Platfrom;
@@ -9,6 +10,7 @@ use App\Models\Transaksi;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class TransaksiController extends Controller
 {
@@ -79,5 +81,19 @@ class TransaksiController extends Controller
             return response()->json(['message' => $result['message']], 500);
         }
 
+    }
+
+        public function import(Request $request)
+    {
+        try {
+        $request->validate([
+            'file' => 'required|mimes:xlsx,xls'
+        ]);
+
+            Excel::import(new TransaksiImport, $request->file('file'));
+            return redirect('/transaction')->with('success', 'Data transaksi berhasil diimpor!');
+        } catch (\Exception $e) {
+            return redirect('/transaction')->with('error', 'Gagal mengimpor data: ' . $e->getMessage());
+        }
     }
 }

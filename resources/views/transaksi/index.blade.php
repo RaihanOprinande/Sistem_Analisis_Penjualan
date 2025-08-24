@@ -12,6 +12,7 @@
 @endsection
 @section('content')
     @include('transaksi.filter')
+    @include('transaksi.import')
     <div class="alert mx-auto" id="alert-box mb-2">
         @if ($message = Session::get('success'))
             <div class="bg-green-100 border-l-4 border-green-500 text-gray-800 p-4" role="alert">
@@ -33,9 +34,16 @@
         <div class="flex justify-end mb-5 gap-5">
             <div class="flex justify-end mb-5">
                 <button data-modal-target="crud-modal" data-modal-toggle="crud-modal"
-                    class="block text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+                    class="block text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-600 cursor-pointer dark:hover:bg-green-700 dark:focus:ring-green-800"
                     type="button">
                     Print Transaction
+                </button>
+            </div>
+            <div class="flex justify-end mb-5">
+                <button data-modal-target="import-modal" data-modal-toggle="import-modal"
+                    class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 cursor-pointer dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                    type="button">
+                    Import File
                 </button>
             </div>
             <div class="flex justify-end mb-5">
@@ -52,7 +60,7 @@
                     @endforeach
                 </select>
                 <button type="submit"
-                    class="text-white bg-blue-500 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm ms-5 w-46 px-5 py-2.5 text-center dark:bg-blue-900 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    class="text-white bg-blue-500 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm ms-5 w-46 px-5 py-2.5 text-center cursor-pointer dark:bg-blue-900 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                     <p class="">
                         Filter
                     </p>
@@ -85,6 +93,7 @@
         </table>
 
     </div>
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function() {

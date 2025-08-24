@@ -68,12 +68,12 @@
     <table>
         <thead>
             <tr>
-                <th>Tanggal_penjualan</th>
+                <th>Tanggal</th>
                 <th>Platfrom</th>
                 <th>Komisi</th>
                 <th>Menu</th>
                 <th>Hpp</th>
-                <th class="w-40">Jumlah</th>
+                <th class="">Jumlah</th>
                 <th>Harga Jual</th>
                 <th>Omset</th>
                 <th>Laba Kotor</th>

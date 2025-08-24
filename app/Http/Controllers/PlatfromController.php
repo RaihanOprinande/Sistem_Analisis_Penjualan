@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Imports\TransaksiImport;
 use App\Interfaces\PlatfromInterface;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Excel;
 
 class PlatfromController extends Controller
 {
@@ -96,5 +98,7 @@ class PlatfromController extends Controller
             return redirect('/platfrom')->with('error', $platfrom['message']);
         }
     }
+
+
 
 }

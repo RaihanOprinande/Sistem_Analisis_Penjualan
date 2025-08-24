@@ -49,6 +49,7 @@ Route::post('/logout',[LoginController::class,'logout']);
 Route::post('/price/platfrom/store',[PlatfromController::class,'store']);
 Route::post('/price/store',[PriceController::class,'store']);
 Route::post('/transaction/store',[TransaksiController::class,'store']);
+Route::post('/transaction/import',[TransaksiController::class,'import']);
 
 
 
