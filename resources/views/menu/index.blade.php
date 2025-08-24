@@ -53,7 +53,7 @@
                 @foreach ($menu as $menu)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
-                        <td>{{ $menu->menu_name }}</td>
+                        <td>{{ $menu->menu_name }} </td>
                         <td>Rp. {{ number_format($menu->hpp, 0, ',', '.') }}</td>
                         <td>{{ $menu->target_laba }}%</td>
                         <td class="flex gap-2">

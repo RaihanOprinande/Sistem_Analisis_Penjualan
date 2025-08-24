@@ -52,9 +52,9 @@ class MenuRepository implements MenuInterface
 
         $harga_final = ceil($harga_mentah / 500) * 500;
 
-        $laba = $harga_final - (1 - $komisi / 100) - $hpp;
+        $laba = $harga_final * (1 - $komisi / 100) - $hpp;
 
-        $laba_final = ceil($laba);
+        $laba_final = round($laba);
 
 
         Price::create([
@@ -88,31 +88,38 @@ class MenuRepository implements MenuInterface
         $menu = Menu::find($id);
         $menu->update($validated);
 
+        $get_menu = Menu::all();
+
+        $price = Price::where('menu_id',$id)->get();
         $platfroms = Platfrom::all();
 
-            foreach($platfroms as $pf){
-                $commission = Commission::where('platfrom_id', $pf->id)->orderBy('tanggal_berlaku', 'desc')->first();
+    foreach ($price as $pf) {
 
-                $hpp = $menu->hpp;
-                $laba = $menu->target_laba;
-                $komisi = $commission ? $commission->komisi : 0;
+    $commission = Commission::where('platfrom_id', $pf->platfrom_id)
+        ->orderBy('tanggal_berlaku', 'desc')
+        ->first();
 
-                $harga = ($hpp + ($hpp * ($laba / 100))) / (1 - ($komisi / 100));
+    // if ($commission) {
+        // Asumsi $menu sudah didefinisikan sebelumnya
+        $hpp = $menu->hpp;
+        $laba = $menu->target_laba;
+        $komisi = $commission->komisi;
 
-                $harga_final = round($harga / 500) * 500;
+        $harga_mentah = ($hpp + ($hpp * ($laba / 100))) / (1 - ($komisi / 100));
+        $harga_final = ceil($harga_mentah / 100) * 100;
 
-                $laba = $harga_final - (1 - $komisi / 100) - $hpp;
+        // Perbaikan rumus laba:
+        $laba_bersih = ($harga_final * (1 - ($komisi / 100))) - $hpp;
+        $laba_final = round($laba_bersih);
 
-                $laba_final = ceil($laba);
-
-                Price::create([
-                        'platfrom_id' => $pf->id,
-                        'menu_id' => $menu->id,
-                        'komisi_id' => $commission ? $commission->id : null,
-                        'harga' => $harga_final,
-                        'laba' => $laba_final,
-                    ]);
-            }
+        // Update objek model tunggal ($pf), bukan koleksi
+        $pf->update([
+            'komisi_id' => $commission->id,
+            'harga' => $harga_final,
+            'laba' => $laba_bersih,
+        ]);
+    // }
+}
             DB::commit();
             // dd($laba_final, $harga,$harga_final);
         return ['success' => true, 'message' => 'Menu has been updated'];

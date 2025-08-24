@@ -6,6 +6,7 @@ use App\Interfaces\CommissionInterface;
 use App\Models\Commission;
 use App\Models\Platfrom;
 use App\Models\Price;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class CommissionRepository implements CommissionInterface
@@ -42,28 +43,34 @@ class CommissionRepository implements CommissionInterface
         try {
             DB::beginTransaction();
             $validated = $request->validate([
-                'komisi' => 'required|numeric',
+                'komisi' => 'required|numeric|max:100',
                 'platfrom_id' => 'required|exists:platfrom_komisis,platfrom_id',
-                'tanggal_berlaku' => 'required',
+                'tanggal_berlaku' => Carbon::now(),
             ]);
             $commission = Commission::create($validated);
 
-            $price = Price::where('platfrom_id',$commission->platfrom_id)->with('menu')->get();
+            $price = Price::where('platfrom_id',$commission->platfrom_id)->with('menu','platfrom')->get();
 
             foreach ($price as $price) {
             $hpp = $price->menu->hpp;
             $target_laba = $price->menu->target_laba;
             $komisi = $commission->komisi;
 
-            // Hitung harga baru
-            $harga_baru = ($hpp + ($hpp * ($target_laba / 100))) / (1 - ($komisi / 100));
+        $harga_mentah = ($hpp + ($hpp * ($target_laba / 100))) / (1 - ($komisi / 100));
+        $harga_final = ceil($harga_mentah / 100) * 100;
+
+        // Hitung laba bersih dan bulatkan ke bilangan bulat terdekat
+        $laba_bersih = ($harga_final * (1 - ($komisi / 100))) - $hpp;
+        $laba_final = round($laba_bersih);
 
             // Update price
             $price->update([
                 'komisi_id' => $commission->id,
-                'harga' => $harga_baru,
+                'harga' => $harga_final,
+                'laba' => $laba_final
             ]);
         }
+        // dd($commission);
         DB::commit();
             return ['success' => true, 'message' => 'Commission has been added'];
         } catch (\Exception $e) {

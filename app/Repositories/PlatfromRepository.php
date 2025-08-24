@@ -4,7 +4,10 @@ namespace App\Repositories;
 
 use App\Interfaces\PlatfromInterface;
 use App\Models\Commission;
+use App\Models\Menu;
 use App\Models\Platfrom;
+use App\Models\Price;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class PlatfromRepository implements PlatfromInterface
@@ -29,17 +32,41 @@ class PlatfromRepository implements PlatfromInterface
             DB::beginTransaction();
             $validated = $request->validate([
                 'platfrom' => 'required',
+                'komisi' => 'required|numeric|max:100'
             ]);
             Platfrom::create($validated);
             Commission::create([
                 'platfrom_id' => Platfrom::latest()->first()->id,
-                'komisi' => $request->komisi,
-                'tanggal_berlaku' =>$request->tanggal_berlaku,
+                'komisi' => $validated->komisi,
+                'tanggal_berlaku' => Carbon::now(),
             ]);
+
+                $menus = Menu::all();
+
+    foreach ($menus as $menu) {
+        $hpp = $menu->hpp;
+        $laba = $menu->target_laba;
+        $komisi_persen = $request->komisi;
+
+        $harga_mentah = ($hpp + ($hpp * ($laba / 100))) / (1 - ($komisi_persen / 100));
+        $harga_final = ceil($harga_mentah / 100) * 100;
+
+        $laba_bersih = ($harga_final * (1 - ($komisi_persen / 100))) - $hpp;
+        $laba_final = round($laba_bersih);
+
+        Price::create([
+            'platfrom_id' => Platfrom::latest()->first()->id,
+            'menu_id' => $menu->id,
+            'komisi_id' => $request->komisi,
+            'harga' => $harga_final,
+            'laba' => $laba_final,
+        ]);
+    }
             DB::commit();
 
             return ['success' => true, 'message' => 'Platfrom has been added'];
         } catch (\Exception $e) {
+            DB::rollBack();
             return ['success' => false, 'message' => 'Failed to add platfrom : ' . $e->getMessage()];
         }
     }

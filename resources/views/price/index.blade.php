@@ -29,6 +29,7 @@
                 <thead>
                     <tr>
                         <th rowspan="2" class="">Menu</th>
+                        <th rowspan="2" class="">Hpp</th>
                         @foreach ($platfrom as $pf)
                             <th colspan="2" class=""> {{ $pf->platfrom }}</th>
                         @endforeach
@@ -43,7 +44,8 @@
                 <tbody>
                     @foreach ($menu as $m)
                         <tr>
-                            <td>{{ $m->menu_name }}</td>
+                            <td>{{ $m->menu_name }} </td>
+                            <td>{{ 'Rp ' . number_format($m->hpp, 0, ',', '.') }} </td>
                             @foreach ($platfrom as $pf)
                                 @php
                                     $harga = $price->where('menu_id', $m->id)->where('platfrom_id', $pf->id)->first();
@@ -54,20 +56,20 @@
                                 @endphp
                                 <td>
                                     @if ($harga)
-                                    {{ 'Rp. ' . number_format($harga->harga, 0, ',', '.') }}
-                                @else
-                                    -
-                            @endif
-                            </td>
-                            <td>
-                                @if ($harga)
-                                    {{ 'RP. ' . number_format($harga->laba, 0, ',', '.') }}
-                                @else
-                                    -
-                                @endif
-                            </td>
-                    @endforeach
-                    </tr>
+                                        {{ 'Rp. ' . number_format($harga->harga, 0, ',', '.') }}
+                                    @else
+                                        -
+                                    @endif
+                                </td>
+                                <td>
+                                    @if ($harga)
+                                        {{ 'RP. ' . number_format($harga->laba, 0, ',', '.') }}
+                                    @else
+                                        -
+                                    @endif
+                                </td>
+                            @endforeach
+                        </tr>
                     @endforeach
                 </tbody>
             </table>
