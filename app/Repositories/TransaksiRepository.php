@@ -115,6 +115,7 @@ class TransaksiRepository implements TransaksiInterface
     {
         $transaksis = Transaksi::whereBetween('tanggal_transaksi', [$request->start_date, $request->end_date])
             ->with('platfrom', 'menu')
+            ->where('status','=','valid')
             ->orderBy('tanggal_transaksi', 'asc')
             ->get();
 
@@ -128,6 +129,7 @@ class TransaksiRepository implements TransaksiInterface
     public function ringkasanbulan($request){
         $ringkasanBulanIni = Transaksi::selectRaw('SUM(laba_kotor) as total_laba_kotor, SUM(jumlah_pesanan) as total_penjualan')
             ->whereBetween('tanggal_transaksi', [$request->start_date, $request->end_date])
+            ->where('status', '=', 'valid' )
             ->first();
 
             return $ringkasanBulanIni;
@@ -137,6 +139,7 @@ class TransaksiRepository implements TransaksiInterface
         $ringkasanPerPlatform = Transaksi::join('platfroms', 'transaksis.platfrom_id', '=', 'platfroms.id')
             ->selectRaw('platfroms.platfrom as platfrom_name, SUM(transaksis.jumlah_pesanan) as total_penjualan, SUM(transaksis.laba_kotor) as total_laba_kotor')
             ->whereBetween('tanggal_transaksi', [$request->start_date, $request->end_date])
+            ->where('status', '=', 'valid')
             ->groupBy('platfroms.platfrom')
             ->orderByDesc('total_laba_kotor')
             ->get();
