@@ -29,7 +29,6 @@ class TransaksiRepository implements TransaksiInterface
 
     $months = $months->reverse()->values();
 
-// Format nama bulan untuk tampilan dropdown
     $formattedMonths = $months->map(function ($item) {
         return [
             'value' => $item->bulan,
@@ -41,20 +40,20 @@ class TransaksiRepository implements TransaksiInterface
 
     public function getallTransaksi($request)
     {
-    // Inisialisasi query builder
+
     $query = Transaksi::selectRaw('tanggal_transaksi, SUM(jumlah_pesanan) as sum_jumlah_pesanan, SUM(laba_kotor) as sum_laba_kotor')
         ->groupBy('tanggal_transaksi')
         ->orderBy('tanggal_transaksi', 'desc');
 
-    // Terapkan filter hanya jika ada input 'filter_bulan'
+
     $query->when($request->filled('filter_bulan'), function ($q) use ($request) {
         $q->whereMonth('tanggal_transaksi', $request->filter_bulan);
     });
 
-    // Jalankan query dan ambil hasilnya
+
     $transaksi = $query->get();
 
-    // Lakukan pemformatan setelah query dijalankan
+
     $transaksi = $transaksi->map(function ($item) {
         $item->tanggal_transaksi_formatted = Carbon::parse($item->tanggal_transaksi)->translatedFormat('j F Y');
         return $item;

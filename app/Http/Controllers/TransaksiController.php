@@ -56,9 +56,8 @@ class TransaksiController extends Controller
 
 
     public function Pdf(Request $request){
+        
         $tanggal_mulai = $request->start_date;
-
-
         $tanggal_akhir = $request->end_date;
 
         $tanggal_mulai_formatted = Carbon::parse($tanggal_mulai)->translatedFormat('j F Y');

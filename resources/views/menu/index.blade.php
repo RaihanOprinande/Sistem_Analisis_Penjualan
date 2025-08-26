@@ -46,7 +46,9 @@
                     <th>Nama Menu</th>
                     <th>HPP</th>
                     <th>Profit Percentage</th>
-                    <th>Action</th>
+                    @can('admin')
+                        <th>Action</th>
+                    @endcan
                 </tr>
             </thead>
             <tbody>
@@ -56,18 +58,20 @@
                         <td>{{ $menu->menu_name }} </td>
                         <td>Rp. {{ number_format($menu->hpp, 0, ',', '.') }}</td>
                         <td>{{ $menu->target_laba }}%</td>
-                        <td class="flex gap-2">
-                            <button
-                                class="block text-white bg-yellow-500 hover:bg-yellow-400 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-yellow-600 dark:hover:bg-yellow-700 dark:focus:ring-yellow-600"
-                                onclick="UpdateMenu(this)" data-menu="{{ json_encode($menu) }}" type="button">
-                                Edit
-                            </button>
-                            <button
-                                class="block text-white bg-red-600 hover:bg-red-400 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-600"
-                                onclick="deleteMenu(this)" data-menu="{{ json_encode($menu) }}" type="button">
-                                Delete
-                            </button>
-                        </td>
+                        @can('admin')
+                            <td class="flex gap-2">
+                                <button
+                                    class="block text-white bg-yellow-500 hover:bg-yellow-400 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-yellow-600 dark:hover:bg-yellow-700 dark:focus:ring-yellow-600"
+                                    onclick="UpdateMenu(this)" data-menu="{{ json_encode($menu) }}" type="button">
+                                    Edit
+                                </button>
+                                <button
+                                    class="block text-white bg-red-600 hover:bg-red-400 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-600"
+                                    onclick="deleteMenu(this)" data-menu="{{ json_encode($menu) }}" type="button">
+                                    Delete
+                                </button>
+                            </td>
+                        @endcan
                     </tr>
                 @endforeach
             </tbody>

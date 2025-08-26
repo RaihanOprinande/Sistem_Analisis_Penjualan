@@ -59,16 +59,18 @@
                             <a class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                                 href="/platfrom/{{ $item->id }}">Commission</a>
                             <button
-                                class="block text-white bg-yellow-500 hover:bg-yellow-400 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-yellow-600 dark:hover:bg-yellow-700 dark:focus:ring-yellow-600"
-                                onclick="UpdatePlatfrom(this)" data-platfrom="{{ json_encode($item) }}" type="button">
-                                Edit
-                            </button>
-                            <button
+                                @can('admin')
+                            class="block text-white bg-yellow-500 hover:bg-yellow-400 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-yellow-600 dark:hover:bg-yellow-700 dark:focus:ring-yellow-600"
+                            onclick="UpdatePlatfrom(this)" data-platfrom="{{ json_encode($item) }}" type="button">
+                            Edit
+                                </button>
+                                <button
                                 class="block text-white bg-red-600 hover:bg-red-400 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-600"
                                 onclick="DeletePlatfrom(this)" data-platfrom="{{ json_encode($item) }}" type="button">
                                 Delete
                             </button>
-                        </td>
+                            @endcan
+                                </td>
                     </tr>
                 @endforeach
             </tbody>

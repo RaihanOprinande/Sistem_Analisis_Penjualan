@@ -74,13 +74,14 @@ class AnalisisRepository implements AnalisisInterface
 
     public function getPlatfromschart()
     {
-        $platfrom = Transaksi::with('platfrom')
-            ->selectRaw('platfrom_id as platfrom_name, SUM(laba_kotor) as total_laba')
-            ->groupBy('platfrom_name')
-            ->orderBy('total_laba','desc')
-            ->get();
+        // $platfrom = Transaksi::with('platfrom')
+        //     ->selectRaw('platfrom_id as platfrom_name, SUM(laba_kotor) as total_laba')
 
-        return $platfrom;
+        //     ->groupBy('platfrom_name')
+        //     ->orderBy('total_laba','desc')
+        //     ->get();
+
+        // return $platfrom;
 
     }
 
@@ -131,16 +132,20 @@ class AnalisisRepository implements AnalisisInterface
 
     public function getplatfromchart()
     {
-        $tahun_ini = Carbon::now()->year;
+        // $tahun_ini = Carbon::now()->year;
+        $bulan_ini = Carbon::now()->month;
+
         $platfrom = DB::table('transaksis')
-        // ->whereYear('transaksis.tanggal_transaksi', $tahun_ini)
             ->select('platfroms.platfrom', DB::raw('SUM(transaksis.laba_kotor) as total_laba_kotor, SUM(transaksis.harga * transaksis.jumlah_pesanan) as omset'))
             ->join('platfroms', 'transaksis.platfrom_id', '=', 'platfroms.id')
+            ->whereMonth('transaksis.tanggal_transaksi', $bulan_ini)
             ->groupBy('platfroms.platfrom')
             ->orderBy('total_laba_kotor', 'desc')
             ->get();
 
-            // $cek = dd($platfrom);
+
+
+            // dd($platfrom);
         return $platfrom;
     }
 
@@ -156,9 +161,13 @@ class AnalisisRepository implements AnalisisInterface
     }
 
     public function getmenuchart(){
-                $menu = DB::table('transaksis')
+
+        $bulan_ini = Carbon::now()->month;
+
+        $menu = DB::table('transaksis')
             ->select('menus.menu_name', DB::raw('SUM(transaksis.jumlah_pesanan) as total_pesanan'))
             ->join('menus', 'transaksis.menu_id', '=', 'menus.id')
+            ->whereMonth('transaksis.tanggal_transaksi', $bulan_ini)
             ->groupBy('menus.menu_name')
             ->orderBy('total_pesanan', 'desc')
             ->get();

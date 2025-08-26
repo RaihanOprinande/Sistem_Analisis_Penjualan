@@ -28,8 +28,7 @@ class CommissionRepository implements CommissionInterface
     {
 
             $komisi = Commission::where('platfrom_id', $id)->get();
-            // $platfrom = Commission::where('platfrom_id', $id)->first();
-            // $platfrom = Platfrom::find($id);
+
             return $komisi;
 
     }
@@ -59,11 +58,11 @@ class CommissionRepository implements CommissionInterface
         $harga_mentah = ($hpp + ($hpp * ($target_laba / 100))) / (1 - ($komisi / 100));
         $harga_final = ceil($harga_mentah / 100) * 100;
 
-        // Hitung laba bersih dan bulatkan ke bilangan bulat terdekat
+
         $laba_bersih = ($harga_final * (1 - ($komisi / 100))) - $hpp;
         $laba_final = round($laba_bersih);
 
-            // Update price
+
             $price->update([
                 'komisi_id' => $commission->id,
                 'harga' => $harga_final,

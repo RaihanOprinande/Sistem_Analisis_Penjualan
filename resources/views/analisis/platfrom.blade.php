@@ -24,40 +24,7 @@
     </div>
     <h1 class="text-4xl font-bold">Platfrom Analysis</h1>
     <div class="container mt-5">
-        {{-- <div class="radiobutton">
-            <ul class="grid w-full md:grid-cols-12">
-                <li>
-                    <input type="radio" id="sales" name="chartType" value="hosting-small" class="hidden peer"
-                        required />
-                    <label for="sales"
-                        class="inline-flex items-center justify-between p-2 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 dark:peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
-                        <div class="block">
-                            <div class="w-full text-lg font-semibold">Sales</div>
-                        </div>
-                    </label>
-                </li>
-                <li>
-                    <input type="radio" id="platfroms" name="chartType" value="platfroms" class="hidden peer" required />
-                    <label for="platfroms"
-                        class="inline-flex items-center mr-10 justify-between p-2 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 dark:peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
-                        <div class="block">
-                            <div class="w-full text-lg font-semibold">Platfrom</div>
-                        </div>
-                    </label>
-                </li>
-                <li>
-                    <input type="radio" id="menus" name="chartType" value="hosting-small" class="hidden peer"
-                        required />
-                    <label for="menu"
-                        class="inline-flex items-center justify-between ms-5 p-2 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 dark:peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
-                        <div class="block">
-                            <div class="w-full text-lg font-semibold">Menu</div>
-                        </div>
-                    </label>
-                </li>
-            </ul>
 
-        </div> --}}
         <div class="chart">
             <canvas id="chartPlatfrom"></canvas>
         </div>
@@ -107,10 +74,9 @@
     <script>
         $(document).ready(function() {
             $('#platfrom').DataTable();
-            // $('#grossprofit').DataTable();
+
         });
-        // Menerima data dari PHP dan menggunakannya di JavaScript
-        // Kita menggunakan `json_encode` agar data bisa dibaca oleh JavaScript dengan aman
+
         const labels = @json($labels);
         const laba_kotor = @json($laba_kotor_grafik);
         const omset = @json($omset_grafik);
@@ -121,21 +87,21 @@
             type: 'bar',
             data: {
                 labels: labels,
-                // --- PERUBAHAN UTAMA DI SINI ---
+
                 datasets: [{
                     label: 'Total Laba Kotor',
                     data: laba_kotor,
                     backgroundColor: 'rgba(255, 99, 132, 0.7)',
                     borderColor: 'rgba(255, 99, 132, 1)',
                     borderWidth: 1
-                }, { // Dataset kedua untuk Total Pesanan
+                }, {
                     label: 'Omset',
                     data: omset,
-                    backgroundColor: 'rgba(54, 162, 235, 0.7)', // Warna berbeda
+                    backgroundColor: 'rgba(54, 162, 235, 0.7)',
                     borderColor: 'rgba(54, 162, 235, 1)',
                     borderWidth: 1
                 }]
-                // --- AKHIR PERUBAHAN UTAMA ---
+
             },
             options: {
                 responsive: true,
