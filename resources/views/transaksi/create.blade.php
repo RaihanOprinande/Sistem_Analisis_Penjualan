@@ -76,7 +76,7 @@
                 </p>
             </button>
         </form>
-        <h1 class="text-4xl font-bold mt-5">Or Import Your Data</h1>
+        {{-- <h1 class="text-4xl font-bold mt-5">Or Import Your Data</h1> --}}
 
 
     </div>

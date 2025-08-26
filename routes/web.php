@@ -31,6 +31,7 @@ Route::get('/analisis/sales',[AnalisisController::class,'SalesChart']);
 Route::get('/analisis/platfroms',[AnalisisController::class,'PlatfromChart']);
 Route::get('/analisis/menus',[AnalisisController::class,'MenuChart']);
 Route::get('/transaksi/pdf', [TransaksiController::class, 'Pdf']);
+// Route::get('/platfrom/{id}', [PlatfromController::class, 'show'])->middleware('auth');
 // ...
 // Route::get('/api/transaksi-bulan', [AnalisisController::class, 'getTransactionsByMonth'])->name('analisis.transaksi.bulan');
 

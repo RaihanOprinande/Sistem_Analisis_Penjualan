@@ -38,6 +38,8 @@
                 <li>Total Laba/Rugi Kotor: Rp {{ number_format($ringkasanBulanIni->total_laba_kotor, 2, ',', '.') }}
                 </li>
                 <li>Total Penjualan: {{ number_format($ringkasanBulanIni->total_penjualan, 0, ',', '.') }} unit</li>
+                <li>Total Omset: Rp {{ number_format($ringkasanBulanIni->total_omset, 2, ',', '.') }}</li>
+                {{-- <li>Total HPP: Rp {{ number_format($ringkasanBulanIni->total_hpp, 2, ',', '.') }}</li> --}}
             </ul>
         </div>
     @endif

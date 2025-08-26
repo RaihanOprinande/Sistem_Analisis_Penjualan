@@ -39,13 +39,15 @@ class DashboardController extends Controller
     $bulan = $data->pluck('bulan');
     $sum_laba_kotor = $laba_kotor->sum();
     $aov = $harga / $total_transaksi;
+    $total_omset = $data2->pluck('omset');
+    $get_menu = $data2->pluck('menu')->first();
 
     $jumlah_pesanan_grafik = $data->pluck('penjualan');
     $laba_kotor_grafik = $data->pluck('laba_kotor');
     $omset_grafik = $data->pluck('omset');
 
-    // dd($omset_grafik);
-    return view('dashboard', compact('omzet','labels','jumlah_pesanan_grafik','laba_kotor_grafik','sum_laba_kotor', 'jumlah_pesanan','aov','platfrom','omset_grafik'));
+    // dd($get_menu);
+    return view('dashboard', compact('omzet','labels','jumlah_pesanan_grafik','laba_kotor_grafik','sum_laba_kotor', 'jumlah_pesanan','aov','platfrom','omset_grafik','total_omset'));
     }
 
 

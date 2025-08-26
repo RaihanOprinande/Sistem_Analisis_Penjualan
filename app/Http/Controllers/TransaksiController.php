@@ -56,7 +56,7 @@ class TransaksiController extends Controller
 
 
     public function Pdf(Request $request){
-        
+
         $tanggal_mulai = $request->start_date;
         $tanggal_akhir = $request->end_date;
 
@@ -67,6 +67,7 @@ class TransaksiController extends Controller
         $ringkasanPerPlatform = $this->transaksiInterface->ringkasanplatfrom($request);
         $ringkasanBulanIni = $this->transaksiInterface->ringkasanbulan($request);
 
+        // dd($ringkasanBulanIni->total_penjualan);
         $pdf = Pdf::loadView('transaksi.pdf', compact('transaksis', 'tanggal_mulai_formatted', 'tanggal_akhir_formatted','ringkasanPerPlatform','ringkasanBulanIni'));
         return $pdf->stream('laporan-transaksi-' . date('Y-m-d') . '.pdf');
     }

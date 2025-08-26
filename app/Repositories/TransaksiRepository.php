@@ -42,6 +42,7 @@ class TransaksiRepository implements TransaksiInterface
     {
 
     $query = Transaksi::selectRaw('tanggal_transaksi, SUM(jumlah_pesanan) as sum_jumlah_pesanan, SUM(laba_kotor) as sum_laba_kotor')
+    ->where('status', 'valid')
         ->groupBy('tanggal_transaksi')
         ->orderBy('tanggal_transaksi', 'desc');
 
@@ -126,7 +127,8 @@ class TransaksiRepository implements TransaksiInterface
     }
 
     public function ringkasanbulan($request){
-        $ringkasanBulanIni = Transaksi::selectRaw('SUM(laba_kotor) as total_laba_kotor, SUM(jumlah_pesanan) as total_penjualan')
+        $ringkasanBulanIni = Transaksi::selectRaw('SUM(laba_kotor) as total_laba_kotor, SUM(jumlah_pesanan) as total_penjualan, SUM(omset) as total_omset')
+            ->with('platfrom','menu')
             ->whereBetween('tanggal_transaksi', [$request->start_date, $request->end_date])
             ->where('status', '=', 'valid' )
             ->first();

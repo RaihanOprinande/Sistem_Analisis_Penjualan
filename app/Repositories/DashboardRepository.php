@@ -23,6 +23,7 @@ class DashboardRepository implements DashboardInterface
     $bulan_ini = Carbon::now()->month;
     $tahun_ini = Carbon::now()->year;
     $data = Transaksi::selectRaw('MONTH(tanggal_transaksi) as bulan, SUM(jumlah_pesanan) as penjualan, SUM(laba_kotor) as laba_kotor, SUM(harga * jumlah_pesanan) as omset')
+        ->where('status', 'valid')
         ->whereYear('tanggal_transaksi', $tahun_ini)
         ->groupBy('bulan')
         ->orderBy('bulan')
@@ -35,6 +36,7 @@ class DashboardRepository implements DashboardInterface
         $bulan_ini = Carbon::now()->month;
         $tahun_ini = Carbon::now()->year;
         $data = Transaksi::with('platfrom', 'menu','komisi')
+        ->where('status', 'valid')
         ->whereMonth('tanggal_transaksi', $bulan_ini)
         ->whereYear('tanggal_transaksi',$tahun_ini)
         ->get();
@@ -47,6 +49,7 @@ class DashboardRepository implements DashboardInterface
         $tahun_ini = Carbon::now()->year;
 
         $omzet = Transaksi::selectRaw('SUM(harga * jumlah_pesanan) as total_omset')
+        ->where('status', 'valid')
         ->whereMonth('tanggal_transaksi', $bulan_ini)
         ->whereYear('tanggal_transaksi', $tahun_ini)
         ->first()
@@ -64,6 +67,7 @@ class DashboardRepository implements DashboardInterface
             $data = DB::table('transaksis')
             ->select('platfroms.platfrom', DB::raw('SUM(transaksis.laba_kotor) as total_laba_kotor'))
             ->join('platfroms', 'transaksis.platfrom_id', '=', 'platfroms.id')
+            ->where('transaksis.status', 'valid')
             ->whereMonth('transaksis.tanggal_transaksi', $bulan_ini)
             ->whereYear('transaksis.tanggal_transaksi', $tahun_ini)
             ->groupBy('platfroms.platfrom')
